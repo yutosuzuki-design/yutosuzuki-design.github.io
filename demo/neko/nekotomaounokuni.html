@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>猫の勇者と魔王の国</title>
+<meta name="description" content="七つの種族と魔王の国を舞台にした、猫の勇者レオンの冒険物語。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== 変数（カラーパレット） ===== */
+:root{
+  --navy:#0F1630; --indigo:#1B2550; --blue:#2F55B5;
+  --gold:#D9B45A; --gold-light:#F6E3A1; --gold-dark:#8A6A1F;
+  --red:#B8262E; --purple:#6B2FB3; --glow:#A855F7;
+  --ivory:#F3E9D2; --text:#F4EEDD; --dark-purple:#1A0B2E; --sunrise:#F2A65A;
+  --serif:"Shippori Mincho B1","Yu Mincho",serif;
+  --sans:"Noto Sans JP","Hiragino Sans",sans-serif;
+  --en:"Cinzel",serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--navy);color:var(--text);font-family:var(--sans);font-size:16px;line-height:2;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+/* ===== 章ごとの背景 ===== */
+.chapter{--tint:rgba(107,47,179,.25);--b1:var(--indigo);--b2:var(--navy);
+  padding:96px 0;
+  background:radial-gradient(ellipse 80% 40% at 50% 0,var(--tint),transparent 70%),linear-gradient(180deg,var(--b1),var(--b2))}
+.c0{--tint:rgba(107,47,179,.28);padding-top:48px}
+.c1{--tint:rgba(184,38,46,.25)}
+.c2{--tint:rgba(168,85,247,.28)}
+.c3{--tint:rgba(217,180,90,.22)}
+/* 第四章（聖者・慈悲）：設計表どおり、アイボリーの明るい背景にする。
+   前後の章とつながるよう、上端は紺から、下端は第五章の黒紫へ、短い距離でなじませる */
+.c4{--tint:rgba(217,180,90,.28);--c4-ink:#1B2550;--c4-gold:#6E5214;
+  color:var(--c4-ink);
+  background:radial-gradient(ellipse 80% 40% at 50% 64px,var(--tint),transparent 70%),
+    linear-gradient(180deg,var(--navy) 0,var(--ivory) 64px,var(--ivory) calc(100% - 64px),var(--dark-purple) 100%)}
+.c4 .ch-head .en,.c4 .ch-head h2 small{color:var(--c4-gold)}
+.c4 .ch-head h2{color:var(--c4-ink)}
+.c4 .ch-head .bgm-tag{color:var(--c4-gold);background:rgba(217,180,90,.18);border-color:rgba(110,82,20,.35)}
+.c4 .text .say{color:var(--c4-gold);border-left-color:rgba(110,82,20,.45)}
+.c4 .text .kw{color:var(--c4-gold)}
+.c4 figure img{box-shadow:0 10px 30px rgba(27,37,80,.25)}
+.c4 .rd-on{background:rgba(217,180,90,.3);box-shadow:0 0 0 8px rgba(217,180,90,.3)}
+.c5,.c6{--b1:var(--dark-purple);--b2:#120820;--tint:rgba(168,85,247,.30)}
+.c7{--b1:var(--dark-purple);--b2:var(--indigo);--tint:rgba(217,180,90,.32)}
+.c8{--b1:var(--indigo);--b2:#2A2A4A;--tint:rgba(242,166,90,.32)}
+.chars{--tint:rgba(47,85,181,.30);--b1:var(--navy);--b2:var(--navy)}
+
+/* ===== 章見出し ===== */
+.ch-head{text-align:center;margin:0 0 48px;position:relative}
+.ch-head .en{display:block;font-family:var(--en);letter-spacing:.3em;color:var(--gold);font-size:.9rem;text-transform:uppercase}
+.ch-head h2{margin:8px 0 0;font-family:var(--serif);font-weight:800;font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.5;letter-spacing:.06em;color:var(--ivory)}
+.ch-head h2 small{display:block;font-size:.5em;font-weight:500;color:var(--gold);letter-spacing:.3em;margin-bottom:4px}
+.ch-head h2::after{content:"";display:block;width:72px;height:2px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* ===== BGMインジケーター ===== */
+.ch-head .bgm-tag{
+  display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:4px 14px;
+  background:rgba(217,180,90,.12);border:1px solid rgba(217,180,90,.3);border-radius:99px;
+  font-size:.78rem;color:var(--gold-light);font-family:var(--sans);letter-spacing:.05em;
+  opacity:0;transform:translateY(6px);transition:all .4s ease;
+}
+.ch-head.active-bgm .bgm-tag{
+  opacity:1;transform:translateY(0);background:rgba(217,180,90,.25);border-color:var(--gold);
+}
+
+/* ===== 画像 ===== */
+figure{margin:0}
+figure img,.char img{border-radius:6px;border:1px solid rgba(217,180,90,.55);box-shadow:0 10px 36px rgba(0,0,0,.5),0 0 28px var(--tint)}
+figure.center{max-width:780px;margin:0 auto 48px}
+figure.wide{margin:0 0 48px}
+
+/* ===== 本文 ===== */
+.text{max-width:720px;margin:0 auto}
+.text p{margin:0 0 .9em;letter-spacing:.04em}
+.text .say{color:var(--gold-light);padding-left:1em;border-left:2px solid rgba(217,180,90,.5)}
+.text .kw{font-family:var(--serif);font-weight:700;font-size:1.25rem;color:var(--gold);text-align:center;letter-spacing:.3em;margin:0}
+
+/* 左右配置 */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.split figure{position:sticky;top:40px}
+.split.right figure{order:2}
+.split .text{max-width:none;margin:0}
+
+/* ===== 序章 ===== */
+.hero{position:relative;margin:0 0 72px}
+.hero::after{content:"";position:absolute;inset:1px 1px auto 1px;height:38%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,rgba(15,22,48,.78),transparent);pointer-events:none}
+.title{position:absolute;z-index:2;top:9%;left:0;right:0;margin:0;text-align:center;
+  font-family:var(--serif);font-weight:800;font-size:clamp(1.7rem,6vw,4rem);letter-spacing:.08em;line-height:1.3;
+  background:linear-gradient(180deg,#FFF1B8 0%,#F0CC6E 45%,#C99A36 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 #7A5A14) drop-shadow(0 4px 0 #4A3208) drop-shadow(0 8px 12px rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(168,85,247,.55))}
+
+/* ===== 結びの言葉 ===== */
+.closing{text-align:center;margin-top:80px}
+.closing .moral{font-family:var(--serif);font-weight:700;font-size:clamp(1.05rem,2.6vw,1.4rem);line-height:2.2;color:var(--gold-light);max-width:680px;margin:0 auto 32px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.closing .fin{font-family:var(--serif);letter-spacing:.2em;color:var(--ivory)}
+
+/* ===== 登場人物 ===== */
+.char-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.char{--c:var(--blue);display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:start;
+  background:rgba(27,37,80,.7);border:1px solid var(--c);border-radius:8px;padding:20px;box-shadow:0 0 18px color-mix(in srgb,var(--c) 40%,transparent)}
+.char img{border-color:var(--c);box-shadow:none;aspect-ratio:1;object-fit:cover}
+.char h3{margin:0;font-family:var(--serif);font-size:1.3rem;color:var(--ivory);line-height:1.5}
+.char h3 small{display:block;font-size:.8rem;font-weight:500;color:var(--gold)}
+.char .role{display:inline-block;margin:6px 0;padding:0 12px;border:1px solid var(--c);border-radius:99px;font-size:.78rem;line-height:1.8;color:var(--gold-light)}
+.char div p:last-child{margin:0;font-size:.9rem;line-height:1.9}
+.char.feature{grid-column:1/-1;grid-template-columns:1fr;max-width:520px;margin:0 auto 16px;justify-items:center;text-align:center}
+.char.feature img{width:240px}
+.leon{--c:var(--blue)} .gowen{--c:var(--red)} .milfy{--c:var(--purple)} .ardion{--c:var(--gold)}
+.seraphim{--c:var(--ivory)} .geronix{--c:#3E8E6A} .valgant{--c:var(--glow)}
+
+footer{background:var(--navy);text-align:center;padding:40px 24px;font-family:var(--serif);letter-spacing:.2em;color:var(--gold);font-size:.85rem}
+footer p{margin:0}
+
+/* ===== レスポンシブ ===== */
+@media (max-width:1024px){
+  .chapter{padding:80px 0}
+  .split{gap:32px}
+  .char-grid{gap:24px}
+  .char{grid-template-columns:120px 1fr}
+}
+@media (max-width:768px){
+  body{font-size:15px;line-height:1.95}
+  .chapter{padding:64px 0}
+  .c0{padding-top:24px}
+  .wrap{padding:0 18px}
+  .ch-head{margin-bottom:32px}
+  .split{grid-template-columns:1fr;gap:28px}
+  .split.right figure{order:0}
+  .split figure{position:static}
+  figure.center,figure.wide{margin-bottom:32px}
+  .hero{margin-bottom:48px}
+  .title{top:7%;letter-spacing:.04em}
+  .closing{margin-top:56px}
+  .char-grid{grid-template-columns:1fr}
+  .char{grid-template-columns:110px 1fr}
+  .char.feature{max-width:none}
+}
+@media (max-width:480px){
+  .wrap{padding:0 14px}
+  .text .say{padding-left:.7em}
+  .char{grid-template-columns:84px 1fr;gap:12px;padding:12px}
+  .char h3{font-size:1.1rem}
+  .char div p:last-child{font-size:.85rem;line-height:1.8}
+  .char.feature img{width:180px}
+  .text .kw{font-size:1.1rem;letter-spacing:.2em}
+}
+
+/* ===== BGMコントロールボタン ===== */
+#bgm{
+  position:fixed;right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));z-index:50;
+  display:flex;align-items:center;gap:10px;padding:12px 20px;border:1px solid var(--gold);border-radius:99px;
+  background:rgba(15,22,48,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  color:var(--ivory);font-family:var(--serif);font-size:.88rem;letter-spacing:.08em;cursor:pointer;
+  box-shadow:0 6px 24px rgba(0,0,0,.6);transition:all .3s ease;
+}
+#bgm:hover{background:rgba(27,37,80,.98);border-color:var(--gold-light);transform:translateY(-2px)}
+#bgm:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px}
+#bgm .ico{color:var(--gold);font-size:1.2rem;line-height:1;display:inline-block;transition:transform .3s}
+#bgm[aria-pressed="true"]{box-shadow:0 0 20px rgba(217,180,90,.6),0 6px 24px rgba(0,0,0,.6);border-color:var(--gold-light)}
+#bgm[aria-pressed="true"] .ico{animation:musicNote 1.5s ease-in-out infinite}
+
+@keyframes musicNote{
+  0%,100%{transform:scale(1) rotate(0deg)}
+  50%{transform:scale(1.3) rotate(12deg)}
+}
+@media (prefers-reduced-motion:reduce){#bgm .ico{animation:none!important}}
+@media (max-width:480px){#bgm{padding:10px 16px;font-size:.8rem}}
+
+#soundPrompt{
+  position:fixed;bottom:80px;right:20px;z-index:49;
+  background:rgba(27,37,80,.95);border:1px solid var(--gold);color:var(--ivory);
+  padding:12px 18px;border-radius:8px;font-size:.82rem;box-shadow:0 8px 24px rgba(0,0,0,.5);
+  animation:floatPrompt 2s ease-in-out infinite alternate;pointer-events:none;
+  display:flex;align-items:center;gap:8px;
+}
+#soundPrompt::after{
+  content:'';position:absolute;bottom:-8px;right:30px;
+  border-width:8px 8px 0;border-style:solid;border-color:rgba(27,37,80,.95) transparent;
+}
+@keyframes floatPrompt{
+  from{transform:translateY(0)}
+  to{transform:translateY(-6px)}
+}
+
+/* ===== 読み聞かせ（自動朗読）パネル ===== */
+#reader{
+  position:fixed;left:max(14px,env(safe-area-inset-left));bottom:max(14px,env(safe-area-inset-bottom));z-index:51;
+  display:flex;flex-direction:column;gap:8px;align-items:flex-start;
+  width:min(360px,calc(100vw - 28px));font-family:var(--serif);color:var(--ivory);
+}
+#readerBar{
+  display:flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid var(--gold);border-radius:99px;
+  background:rgba(15,22,48,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 6px 24px rgba(0,0,0,.6);
+}
+#reader button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 12px;
+  border:1px solid rgba(217,180,90,.5);border-radius:99px;background:transparent;color:var(--ivory);
+  font-family:var(--serif);font-size:.9rem;letter-spacing:.06em;cursor:pointer;transition:all .25s ease;
+}
+#reader button:hover:not(:disabled){background:rgba(217,180,90,.18);border-color:var(--gold-light)}
+#reader button:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px}
+#reader button:disabled{opacity:.35;cursor:default}
+#rdPlay{padding:0 18px;border-color:var(--gold);background:rgba(217,180,90,.16);font-weight:700}
+#rdPlay[aria-pressed="true"]{box-shadow:0 0 18px rgba(217,180,90,.55);border-color:var(--gold-light)}
+#rdIco{color:var(--gold);font-size:1.1rem;line-height:1}
+#rdNow{
+  max-width:100%;padding:2px 12px;border-radius:99px;background:rgba(15,22,48,.85);
+  font-size:.78rem;color:var(--gold-light);letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#rdNow:empty{display:none}
+#readerPanel{
+  width:100%;padding:14px 16px;border:1px solid var(--gold);border-radius:12px;
+  background:rgba(15,22,48,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 8px 28px rgba(0,0,0,.6);display:grid;gap:10px;
+}
+#readerPanel[hidden]{display:none}
+#readerPanel label{display:grid;grid-template-columns:3.2em 1fr auto;align-items:center;gap:8px;font-size:.85rem;color:var(--gold-light)}
+#readerPanel select{
+  grid-column:2/4;min-width:0;padding:8px;border:1px solid rgba(217,180,90,.5);border-radius:6px;
+  background:var(--indigo);color:var(--ivory);font-family:var(--sans);font-size:.85rem;
+}
+#readerPanel input[type=range]{width:100%;accent-color:var(--gold)}
+#readerPanel output{min-width:2.6em;text-align:right;font-family:var(--sans);font-size:.8rem}
+#rdNote{margin:0;font-family:var(--sans);font-size:.75rem;line-height:1.7;color:var(--sunrise)}
+#rdNote:empty{display:none}
+
+/* いま読んでいる所 */
+.rd-on{background:rgba(217,180,90,.2);box-shadow:0 0 0 8px rgba(217,180,90,.2);border-radius:6px;transition:background .3s,box-shadow .3s}
+.ch-head h2.rd-on{background:none;box-shadow:none;text-shadow:0 0 18px rgba(246,227,161,.85)}
+
+@media (max-width:700px){
+  /* BGMボタンの上に並べる */
+  #reader{bottom:calc(max(14px,env(safe-area-inset-bottom)) + 62px)}
+}
+@media (prefers-reduced-motion:reduce){.rd-on{transition:none}}
+
+/* ===== 朗読中の画像ビューア（読んでいる章の絵を見えるところに固定表示） ===== */
+#rdViewer{
+  position:fixed;z-index:48;margin:0;pointer-events:none;box-sizing:border-box;
+  top:0;left:0;right:0;height:min(30vh,240px);padding-top:env(safe-area-inset-top,0px);
+  background:rgba(15,22,48,.94);border-bottom:1px solid var(--gold);box-shadow:0 6px 24px rgba(0,0,0,.55);
+  opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease;
+}
+#rdViewer.on{opacity:1;visibility:visible}
+#rdViewer img{display:block;width:100%;height:100%;object-fit:contain}
+@media (min-width:1200px){
+  #rdViewer{
+    left:auto;top:16px;right:16px;width:clamp(220px,calc((100vw - 760px)/2 - 24px),460px);height:auto;padding-top:0;
+    background:none;border:0;box-shadow:none;
+  }
+  #rdViewer img{height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:6px;border:1px solid rgba(217,180,90,.55);box-shadow:0 10px 36px rgba(0,0,0,.5)}
+}
+#readerPanel .rd-check{grid-template-columns:auto 1fr;gap:10px}
+#readerPanel .rd-check input{width:20px;height:20px;accent-color:var(--gold)}
+@media (prefers-reduced-motion:reduce){#rdViewer{transition:none}}
+.quiz-cta{margin:56px auto 0;max-width:620px;text-align:center;padding:34px 24px;border:1px solid rgba(217,180,90,.45);border-radius:20px;background:linear-gradient(160deg,rgba(107,47,179,.28),rgba(15,22,48,.6))}
+.quiz-cta-lead{margin:0;font-family:var(--serif);font-weight:800;font-size:clamp(20px,3.4vw,26px);color:var(--gold-light);line-height:1.6}
+.quiz-cta-sub{margin:6px 0 22px;font-size:15px;color:var(--text)}
+.quiz-cta-btn{display:inline-block;padding:13px 30px;border-radius:999px;font-weight:700;text-decoration:none;color:#29213d;background:linear-gradient(135deg,#ddc47e,#b8954e);transition:transform .18s,box-shadow .18s}
+.quiz-cta-btn:hover,.quiz-cta-btn:focus-visible{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+</style>
+</head>
+<body>
+<main>
+
+<!-- 序章 -->
+<section class="chapter c0" id="ch0">
+  <div class="wrap">
+    <figure class="hero">
+      <img src="images/ch0.jpg" alt="序章 魔王が目覚めた日" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Prologue'">
+      <h1 class="title">猫の勇者と魔王の国</h1>
+    </figure>
+    <header class="ch-head">
+      <span class="en">Prologue</span>
+      <h2><small>序章</small>魔王が目覚めた日</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 幕開けのファンファーレ</div>
+    </header>
+    <div class="text">
+      <p>はるか昔、動物たちが暮らす世界には、七つの種族が存在していた。</p>
+      <p>勇気を持つ猫族、武勇に優れた猿族、魔法を操るネズミ族、王国を治めるキリン族、祈りの力を持つウサギ族。そして、魔王の軍勢に属するカエル族とゾウ族。</p>
+      <p>それぞれの種族は、長い年月をかけて平和を築いてきた。</p>
+      <p>しかしある夜、世界の中心にある「星のクリスタル」が黒く染まった。</p>
+      <p>クリスタルの力を奪ったのは、暗黒の城に君臨するゾウの魔王、ヴァルガント。</p>
+      <p class="say">「この世界を一つにする。すべての国を、我が支配下に置くのだ！」</p>
+      <p>魔王の命令を受け、冷酷な幹部カエルのゲロニクスは、魔王軍を率いて各地へ進軍を開始した。</p>
+      <p>森は枯れ、川は濁り、空から星が消えていく。</p>
+      <p>世界に残された希望は、たった一つだった。</p>
+      <p>星のクリスタルに隠された、七つの力を目覚めさせること。</p>
+      <p>その使命を知らない一匹の猫が、運命の扉を開こうとしていた。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 第一章 -->
+<section class="chapter c1" id="ch1">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Chapter 1</span>
+      <h2><small>第一章</small>猫の勇者と赤いマント</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 疾走する冒険</div>
+    </header>
+    <div class="split left">
+      <figure>
+        <img src="images/ch1.jpg" alt="第一章 猫の勇者と赤いマント" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Chapter+1'">
+      </figure>
+      <div class="text">
+        <p>小さな村に住む猫の勇者、レオン。</p>
+        <p>剣の腕はまだ未熟だったが、困っている者を見捨てることができない、優しい心の持ち主だった。</p>
+        <p>ある日、村に魔王軍の兵士たちが押し寄せた。</p>
+        <p class="say">「村を守るんだ！」</p>
+        <p>レオンは震える足で剣を構えた。しかし、敵の数はあまりにも多かった。</p>
+        <p>そのとき、空から赤いマントが舞い降りた。</p>
+        <p class="say">「おいおい、猫一匹で戦うつもりか？」</p>
+        <p>現れたのは、金色の鎧を身にまとった猿の戦士、ゴウエンだった。</p>
+        <p>長い棒を振り回し、敵を次々と吹き飛ばす。</p>
+        <p>レオンはゴウエンと力を合わせ、村を守り抜いた。</p>
+        <p>戦いのあと、ゴウエンは言った。</p>
+        <p class="say">「本当の勇者ってのは、強い奴のことじゃない。怖くても、誰かを守ろうとする奴のことさ」</p>
+        <p>レオンは、その言葉を胸に刻んだ。</p>
+        <p>そして二人は、魔王を止める旅へ出発した。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第二章 -->
+<section class="chapter c2" id="ch2">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Chapter 2</span>
+      <h2><small>第二章</small>ネズミの魔女と禁断の魔法</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 森にひそむ魔法</div>
+    </header>
+    <div class="split right">
+      <figure>
+        <img src="images/ch2.jpg" alt="第二章 ネズミの魔女と禁断の魔法" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Chapter+2'">
+      </figure>
+      <div class="text">
+        <p>深い森の奥には、誰も近づかない古い魔法屋敷があった。</p>
+        <p>そこに暮らしていたのは、ネズミの魔女、ミルフィ。</p>
+        <p>彼女は天才的な魔法使いだったが、過去に自分の魔法で大切な森を傷つけてしまったことがあり、誰とも関わらずに暮らしていた。</p>
+        <p>レオンたちが屋敷を訪れると、ミルフィは杖を向けた。</p>
+        <p class="say">「帰って！ 私はもう、誰のためにも魔法を使わない！」</p>
+        <p>だが、魔王軍が森に火を放ち、屋敷にも炎が迫っていた。</p>
+        <p>逃げ遅れた小動物たちを見たミルフィは、唇をかみしめた。</p>
+        <p class="say">「……もう二度と失敗したくなかったのに」</p>
+        <p>それでも彼女は杖を掲げた。</p>
+        <p class="say">「星よ、命を守る光となれ！」</p>
+        <p>紫色の光が森を包み込み、炎を消し去った。</p>
+        <p>魔法のあと、ミルフィは静かに言った。</p>
+        <p class="say">「魔法が怖いんじゃない。自分の力を信じられないことが、怖かったのね」</p>
+        <p>こうして三人目の仲間が加わった。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第三章 -->
+<section class="chapter c3" id="ch3">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Chapter 3</span>
+      <h2><small>第三章</small>キリンの王様と隠された真実</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 王国の調べ</div>
+    </header>
+    <figure class="center">
+      <img src="images/ch3.jpg" alt="第三章 キリンの王様と隠された真実" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Chapter+3'">
+    </figure>
+    <div class="text">
+      <p>三人がたどり着いたのは、雲に届くほど高い塔を持つキリンの王国。</p>
+      <p>国を治めるのは、賢王アルディオンだった。</p>
+      <p>王は彼らを歓迎したが、星のクリスタルの話になると、表情を曇らせた。</p>
+      <p class="say">「魔王ヴァルガントは、かつて世界を救った英雄だったのだ」</p>
+      <p>一同は驚いた。</p>
+      <p>遠い昔、ヴァルガントは大災害から動物たちを守るため、自らの命をかけて戦った。しかし、世界を救う力を求めるあまり、星のクリスタルの闇に心を支配されてしまったのだという。</p>
+      <p class="say">「魔王は生まれながらの悪ではない。だが、今の彼を放置すれば、世界は滅びる」</p>
+      <p>王はレオンに、古代の剣を授けた。</p>
+      <p class="say">「敵を倒す力だけでは、世界は救えぬ。何を守るために剣を振るうのか、それを忘れるな」</p>
+      <p>そして王は、秘密の地下書庫に眠る古文書を開いた。</p>
+      <p>そこには、魔王を倒す方法ではなく、魔王の中に残る光を取り戻す方法が記されていた。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 第四章 -->
+<section class="chapter c4" id="ch4">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Chapter 4</span>
+      <h2><small>第四章</small>ウサギの聖者と最後の祈り</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 祈りの旋律</div>
+    </header>
+    <div class="split right">
+      <figure>
+        <img src="images/ch4.jpg" alt="第四章 ウサギの聖者と最後の祈り" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Chapter+4'">
+      </figure>
+      <div class="text">
+        <p>魔王の城へ向かう途中、一行は荒れ果てた聖堂にたどり着いた。</p>
+        <p>そこで出会ったのは、ウサギの聖者、セラフィム。</p>
+        <p>彼は傷ついた動物たちを治療し、誰に対しても優しく接していた。</p>
+        <p>ゴウエンは不思議そうに尋ねた。</p>
+        <p class="say">「魔王軍の兵士まで助けるのか？ そいつらは俺たちを殺そうとしたんだぞ」</p>
+        <p>聖者は穏やかに答えた。</p>
+        <p class="say">「傷ついた命に、敵も味方もありません」</p>
+        <p>しかし、聖者の力にも限界があった。</p>
+        <p>星のクリスタルが黒く染まったことで、世界を包む生命の光が弱まっていたのだ。</p>
+        <p>セラフィムはレオンに告げた。</p>
+        <p class="say">「魔王を倒すことはできるでしょう。でも、それだけでは世界に残った憎しみは消えません」</p>
+        <p>レオンは剣を握りしめた。</p>
+        <p>敵を倒すだけでは終わらない戦いがある。それを、初めて理解したのだった。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第五章 -->
+<section class="chapter c5" id="ch5">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Chapter 5</span>
+      <h2><small>第五章</small>魔王の幹部、カエルのゲロニクス</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 迫りくる行進</div>
+    </header>
+    <div class="split left">
+      <figure>
+        <img src="images/ch5.jpg" alt="第五章 魔王の幹部、カエルのゲロニクス" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Chapter+5'">
+      </figure>
+      <div class="text">
+        <p>ついに一行は、魔王の領土へ足を踏み入れた。</p>
+        <p>そこを守るのは、魔王の側近であるカエルの幹部、ゲロニクス。</p>
+        <p>黒と紫の鎧をまとい、紫水晶の杖を持つ彼は、魔王軍の中でも恐れられる存在だった。</p>
+        <p class="say">「ここから先は、魔王様の聖域だ。生きて帰れると思うな！」</p>
+        <p>ゲロニクスの魔法で、地面から巨大な毒の沼が広がった。</p>
+        <p>ゴウエンが飛び込み、敵の兵士たちを引きつける。ミルフィは魔法で沼を凍らせ、セラフィムは仲間たちを守る結界を張った。</p>
+        <p>その隙にレオンが駆け抜ける。</p>
+        <p>しかし、ゲロニクスの杖がレオンを吹き飛ばした。</p>
+        <p class="say">「なぜ抵抗する？　魔王様の力の前では、すべてが無意味だ！」</p>
+        <p>レオンは立ち上がり、尋ねた。</p>
+        <p class="say">「お前は、本当に魔王を信じているのか？」</p>
+        <p>一瞬、ゲロニクスの動きが止まった。</p>
+        <p>彼はかつて、弱い自分を救ってくれた魔王に忠誠を誓ったのだった。</p>
+        <p>だが今の魔王は、かつての優しさを失っていた。</p>
+        <p class="say">「黙れ！　私は……魔王様を裏切るわけにはいかない！」</p>
+        <p>ゲロニクスは最後の魔法を放った。</p>
+        <p>その瞬間、ミルフィが叫んだ。</p>
+        <p class="say">「あなたの忠誠心まで、魔王の闇に捧げる必要はないわ！」</p>
+        <p>レオンの剣が紫色の魔法を切り裂く。</p>
+        <p>ゲロニクスは膝をついた。</p>
+        <p>レオンは、とどめを刺さなかった。</p>
+        <p class="say">「お前が本当に守りたいものを、もう一度考えてくれ」</p>
+        <p>長い沈黙のあと、ゲロニクスは杖を下ろした。</p>
+        <p class="say">「……魔王様を、救うことができるのか？」</p>
+        <p class="say">「一緒に探そう」</p>
+        <p>こうして、魔王の幹部は最後の仲間となった。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第六章 -->
+<section class="chapter c6" id="ch6">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Chapter 6</span>
+      <h2><small>第六章</small>ゾウの魔王ヴァルガント</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 魔王の玉座</div>
+    </header>
+    <figure class="center">
+      <img src="images/ch6.jpg" alt="第六章 ゾウの魔王ヴァルガント" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Chapter+6'">
+    </figure>
+    <div class="text">
+      <p>暗黒の城の最奥。</p>
+      <p>そこには、巨大な玉座に座るゾウの魔王、ヴァルガントがいた。</p>
+      <p>黒と紫の豪華な衣装。黄金の冠。紫色に輝く杖。</p>
+      <p>その姿は圧倒的だった。</p>
+      <p class="say">「よくここまで来たな、小さき者たちよ」</p>
+      <p>魔王が立ち上がると、城全体が震えた。</p>
+      <p class="say">「人々は弱い。争い、裏切り、奪い合う。ならば、私がすべてを支配すればいい。誰も逆らえぬ世界なら、争いもなくなる！」</p>
+      <p>ゴウエンは叫んだ。</p>
+      <p class="say">「自由を奪って作る平和なんて、平和じゃねえ！」</p>
+      <p>魔王は杖を振り下ろした。</p>
+      <p>黒い稲妻が走り、仲間たちは次々と倒れていく。</p>
+      <p>レオンは剣を構えたが、魔王の力に押し戻された。</p>
+      <p>そのとき、ゲロニクスが魔王の前に立った。</p>
+      <p class="say">「魔王様……もう、おやめください！」</p>
+      <p class="say">「貴様まで私に逆らうのか！」</p>
+      <p class="say">「私は、あなたに救われた日を忘れていません。だからこそ、今のあなたを止めたいのです！」</p>
+      <p>魔王の目が揺れた。</p>
+      <p>しかし、クリスタルの闇はさらに強くなり、魔王の体を黒い光が包み込んだ。</p>
+      <p class="say">「黙れ！　私はもう、後戻りできぬのだ！」</p>
+    </div>
+  </div>
+</section>
+
+<!-- 最終章 -->
+<section class="chapter c7" id="ch7">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Final Chapter</span>
+      <h2><small>最終章</small>七つの力が起こした奇跡</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 七つの光</div>
+    </header>
+    <figure class="wide">
+      <img src="images/ch7.jpg" alt="最終章 七つの力が起こした奇跡" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Final+Chapter'">
+    </figure>
+    <div class="text">
+      <p>レオンは、倒れた仲間たちを見た。</p>
+      <p>剣を握る手は震えていた。</p>
+      <p>勝てる見込みはない。</p>
+      <p>それでも、レオンは剣を下ろさなかった。</p>
+      <p class="say">「魔王！　あなたが昔、世界を救ったのなら……あなたの中には、まだ守りたいものが残っているはずだ！」</p>
+      <p>レオンの剣が、かすかな金色の光を放った。</p>
+      <p>ゴウエンが立ち上がり、棒を地面に突き立てる。</p>
+      <p class="say">「俺の力は、お前を守るために使う！」</p>
+      <p>ミルフィが杖を掲げる。</p>
+      <p class="say">「私の魔法は、命を奪うためじゃない。未来をつくるためにある！」</p>
+      <p>遠くの王国では、キリンの王アルディオンが祈りを捧げていた。</p>
+      <p>聖堂では、ウサギの聖者セラフィムが最後の生命の光を送り出した。</p>
+      <p>ゲロニクスもまた、魔王に向かって杖を掲げる。</p>
+      <p>七つの力が、一つの光となって集まった。</p>
+      <p class="kw">勇気。武勇。知恵。王の責任。慈悲。忠誠。</p>
+      <p>そして、過ちを認める勇気。</p>
+      <p>光はレオンの剣に宿り、星のクリスタルを包み込んだ。</p>
+      <p class="say">「こんな……はずでは……！」</p>
+      <p>魔王の体から、黒い闇が剥がれ落ちていく。</p>
+      <p>その奥から現れたのは、疲れ果てた一頭のゾウだった。</p>
+      <p>ヴァルガントは膝をつき、震える声でつぶやいた。</p>
+      <p class="say">「私は……世界を守りたかっただけなのだ……」</p>
+      <p>レオンは剣を収めた。</p>
+      <p class="say">「だったら、もう一度、一緒に守りましょう」</p>
+      <p>魔王は涙を流した。</p>
+      <p>長い年月にわたり世界を覆っていた闇が消え、星のクリスタルは再び輝きを取り戻した。</p>
+    </div>
+  </div>
+</section>
+
+<!-- エピローグ -->
+<section class="chapter c8" id="ch8">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Epilogue</span>
+      <h2><small>エピローグ</small>新しい世界の始まり</h2>
+      <div class="bgm-tag"><span class="icon">♪</span> BGM: 夜明けの歌</div>
+    </header>
+    <figure class="wide">
+      <img src="images/ch8.jpg" alt="エピローグ 新しい世界の始まり" loading="lazy" width="1536" height="1024" onerror="this.src='https://placehold.co/1200x800/1B2550/D9B45A?text=Epilogue'">
+    </figure>
+    <div class="text">
+      <p>戦いが終わったあと、世界には少しずつ平和が戻ってきた。</p>
+      <p>キリンの王アルディオンは、種族の違いを越えて話し合うための評議会を設立した。</p>
+      <p>猿の戦士ゴウエンは、若い戦士たちに武術を教えた。</p>
+      <p>ネズミの魔女ミルフィは、誰もが安全に学べる魔法学校を開いた。</p>
+      <p>ウサギの聖者セラフィムは、傷ついた者たちの心を癒やし続けた。</p>
+      <p>カエルのゲロニクスは、かつて自分が仕えた魔王とともに、壊れた国を再建する道を選んだ。</p>
+      <p>そしてゾウのヴァルガントは、王の座を離れ、自らが犯した過ちと向き合いながら、世界の復興に力を尽くした。</p>
+      <p>猫の勇者レオンは、再び旅に出た。</p>
+      <p>彼の隣には、いつもの仲間たちがいる。</p>
+      <p class="say">「なあ、レオン。次はどこへ行くんだ？」</p>
+      <p>ゴウエンが尋ねた。</p>
+      <p>レオンは笑って答えた。</p>
+      <p class="say">「まだ誰も知らない場所へ。世界には、救わなきゃいけないものが、きっとたくさんあるから」</p>
+      <p>七人は朝日に向かって歩き始めた。</p>
+      <p>彼らの物語は、まだ終わらない。</p>
+    </div>
+    <div class="closing">
+      <p class="moral">本当の勇者とは、悪を倒す者ではない。誰かが再び光を見つけられるように、手を差し伸べる者なのだ。</p>
+      <p class="fin">—— 猫の勇者と魔王の国・完 ——</p>
+    </div>
+  </div>
+</section>
+
+<!-- 登場人物 -->
+<section class="chapter chars" id="characters">
+  <div class="wrap">
+    <header class="ch-head">
+      <span class="en">Characters</span>
+      <h2>登場人物一覧</h2>
+    </header>
+    <div class="char-grid">
+      <article class="char leon feature">
+        <img src="images/leon.jpg" alt="レオン" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Leon'">
+        <div>
+          <h3>レオン<small>猫の勇者</small></h3>
+          <p class="role">主人公</p>
+          <p>未熟だが、誰も見捨てない勇気を持つ。魔王を倒すのではなく救う道を選ぶ。</p>
+        </div>
+      </article>
+      <article class="char gowen">
+        <img src="images/gowen.jpg" alt="ゴウエン" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Gowen'">
+        <div>
+          <h3>ゴウエン<small>猿の戦士</small></h3>
+          <p class="role">前衛・武闘家</p>
+          <p>豪快で仲間思い。圧倒的な武術で仲間を守る。</p>
+        </div>
+      </article>
+      <article class="char milfy">
+        <img src="images/milfy.jpg" alt="ミルフィ" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Milfy'">
+        <div>
+          <h3>ミルフィ<small>ネズミの魔女</small></h3>
+          <p class="role">魔法使い</p>
+          <p>強大な魔力を持つが、過去の失敗を恐れている。仲間と出会い、自分の力を信じ直す。</p>
+        </div>
+      </article>
+      <article class="char ardion">
+        <img src="images/ardion.jpg" alt="アルディオン" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Ardion'">
+        <div>
+          <h3>アルディオン<small>キリンの王様</small></h3>
+          <p class="role">賢者・王国の守護者</p>
+          <p>世界の歴史とクリスタルの秘密を知る賢王。主人公たちに進むべき道を示す。</p>
+        </div>
+      </article>
+      <article class="char seraphim">
+        <img src="images/seraphim.jpg" alt="セラフィム" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Seraphim'">
+        <div>
+          <h3>セラフィム<small>ウサギの聖者</small></h3>
+          <p class="role">回復・守護</p>
+          <p>敵味方を区別せず命を救う。仲間に慈悲の意味を教える。</p>
+        </div>
+      </article>
+      <article class="char geronix">
+        <img src="images/geronix.jpg" alt="ゲロニクス" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Geronix'">
+        <div>
+          <h3>ゲロニクス<small>魔王の幹部カエル</small></h3>
+          <p class="role">敵から仲間へ</p>
+          <p>魔王への忠誠心と、正しいと信じたい心の間で葛藤する。最後には魔王を救うために立ち上がる。</p>
+        </div>
+      </article>
+      <article class="char valgant">
+        <img src="images/valgant.jpg" alt="ヴァルガント" loading="lazy" width="480" height="480" onerror="this.src='https://placehold.co/240x240/1B2550/D9B45A?text=Valgant'">
+        <div>
+          <h3>ヴァルガント<small>ゾウの魔王</small></h3>
+          <p class="role">最大の敵・悲劇の英雄</p>
+          <p>世界を守ろうとした過去を持つ。支配による平和を求め、闇に心を奪われた。</p>
+        </div>
+      </article>
+    </div>
+    <div class="quiz-cta">
+      <p class="quiz-cta-lead">あなたは、どの仲間に近い？</p>
+      <p class="quiz-cta-sub">8つの質問に答えて、心の中の勇者を見つけよう。</p>
+      <a class="quiz-cta-btn" href="sinndannapuri.html">心の勇者診断へ ➔</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><p>猫の勇者と魔王の国</p></footer>
+
+<!-- プロンプト通知 -->
+<div id="soundPrompt">
+  <span>タップでBGMを再生 ➔</span>
+</div>
+
+<!-- 読み聞かせ（自動朗読）パネル -->
+<div id="reader" role="region" aria-label="読み聞かせ">
+  <div id="readerPanel" hidden>
+    <label>はじまり<select id="rdChapter"></select></label>
+    <label>声<select id="rdVoice"></select></label>
+    <label>速さ<input id="rdRate" type="range" min="0.6" max="1.2" step="0.05" value="0.85"><output id="rdRateV">0.85</output></label>
+    <label class="rd-check"><input id="rdView" type="checkbox" checked>朗読中に絵を表示</label>
+    <label>高さ<input id="rdPitch" type="range" min="0.8" max="1.6" step="0.05" value="1.15"><output id="rdPitchV">1.15</output></label>
+    <p id="rdNote"></p>
+  </div>
+  <div id="readerBar">
+    <button id="rdPrev" type="button" aria-label="ひとつ前へ" disabled>⏮</button>
+    <button id="rdPlay" type="button" aria-pressed="false"><span id="rdIco" aria-hidden="true">▶</span><span id="rdLabel">よみきかせ</span></button>
+    <button id="rdNext" type="button" aria-label="つぎへ" disabled>⏭</button>
+    <button id="rdStop" type="button" aria-label="とめる" disabled>⏹</button>
+    <button id="rdSet" type="button" aria-label="せってい" aria-expanded="false">⚙</button>
+  </div>
+  <div id="rdNow" aria-live="polite"></div>
+</div>
+
+<!-- 朗読中の画像ビューア -->
+<figure id="rdViewer" aria-hidden="true"><img alt="" decoding="async"></figure>
+
+<!-- BGMコントロールボタン -->
+<button id="bgm" type="button" aria-pressed="false">
+  <span class="ico" aria-hidden="true">♪</span>
+  <span id="bgmText">BGM OFF</span>
+</button>
+
+<script>
+(function(){
+/*
+ * Web Audio API 音源合成＆セクション連動システム
+ */
+
+// 音階定義
+var MAJ=[0,2,4,5,7,9,11], MIN=[0,2,3,5,7,8,10], DOR=[0,2,3,5,7,9,10], LOC=[0,1,3,5,6,8,10];
+
+/* 各章のBGM構成パラメータ */
+var TRACKS = [
+  {
+    // 序章: 幕開けのファンファーレ（金管の行進曲）
+    name: '幕開けのファンファーレ',
+    bpm: 108, bpb: 4, root: 58, scale: MAJ, // Bb Major
+    chords: [0, 0, 3, 0, 4, 3, 4, 0],
+    mi: 'brass', mo: 0, pad: 'brassPad', bass: [0, 2], bi: 'brassBass', perc: 'march', vol: 1.0,
+    dyn: [0.9, 0.95, 1.0, 1.0, 0.9, 0.95, 1.0, 0.85],
+    dbl: { i: 'brass', o: -12, v: 0.5 },
+    mel: '0:0.5 4:0.5 7:1 7:0.5 6:0.5 7:1 9:2 7:1 4:1 5:0.5 5:0.5 5:1 4:1 2:1 4:3 r:1 0:0.5 4:0.5 7:1 7:0.5 6:0.5 7:1 9:1 11:1 9:1 7:1 8:1 7:1 6:1 4:1 7:3 r:1'
+  },
+  {
+    // 第一章: 疾走する冒険（オリジナル）
+    // 6/8拍子・ニ短調(ドリアン)・弦の疾走オスティナート・ティンパニの重い拍頭・ブラスの力強い主題
+    name: '疾走する冒険',
+    bpm: 190, bpb: 6, root: 50, scale: DOR,
+    chords: [0, 0, 3, 0, 0, 4, 6, 0],
+    mi: 'brass', mo: 12, pad: 'strings', bass: [0, 3], bi: 'bassS',
+    arp: { s: 1, i: 'pluck', o: 12, pat: [0, 2, 4, 2, 4, 2] },
+    perc: 'pirate', vol: 1.15,
+    dyn: [0.9, 0.95, 1.0, 1.05, 0.9, 1.0, 1.05, 0.9],
+    dbl: { i: 'cellos', o: -12, v: 0.7 },
+    mel: '4:2 4:1 5:1 4:1 2:1 0:2 2:1 4:3 7:2 7:1 6:1 5:1 4:1 2:2 4:1 2:3 4:2 4:1 5:1 4:1 2:1 7:2 8:1 7:1 6:1 4:1 6:2 5:1 4:1 2:1 4:1 0:6'
+  },
+  {
+    // 第二章: 森にひそむ魔法（チェレスタの3拍子）
+    name: '森にひそむ魔法',
+    bpm: 135, bpb: 3, root: 59, scale: MIN, // B Minor
+    chords: [0, 0, 5, 0, 3, 3, 4, 0],
+    mi: 'celesta', mo: 12, pad: 'mystic', bass: [0], bi: 'harp', arp: { s: 1, i: 'harp', o: 12 }, perc: 'none', vol: 0.85,
+    dyn: [0.7, 0.8, 0.9, 1.0, 0.8, 0.9, 1.0, 0.7],
+    mel: '0:1 2:1.5 3:0.5 4:2 2:1 5:1 4:1 3:1 2:1.5 0:0.5 1:1 3:1 5:1.5 4:0.5 7:2 5:1 6:1 5:1 4:1 0:3'
+  },
+  {
+    // 第三章: 王国の調べ（フルートとハープ）
+    name: '王国の調べ',
+    bpm: 84, bpb: 4, root: 53, scale: MAJ, // F Major
+    chords: [0, 4, 5, 3, 0, 3, 4, 0],
+    mi: 'flute', mo: 12, pad: 'warmStrings', bass: [0, 2], bi: 'bass', arp: { s: 0.5, i: 'harp', o: 12 }, perc: 'soft', vol: 0.9,
+    dyn: [0.7, 0.8, 0.85, 0.95, 0.8, 0.9, 1.0, 0.75],
+    mel: '4:2 7:1 6:1 5:3 4:1 2:2 4:1 5:1 4:4 7:2 9:1 8:1 7:3 5:1 6:2 5:1 4:1 7:4'
+  },
+  {
+    // 第四章: 祈りの旋律（ソロバイオリン）
+    name: '祈りの旋律',
+    bpm: 64, bpb: 4, root: 50, scale: MIN, // D Minor
+    chords: [0, 5, 2, 6, 0, 5, 3, 0],
+    mi: 'soloViolin', mo: 12, pad: 'strings', bass: [0, 2], bi: 'piano', arp: { s: 0.5, i: 'piano', o: 0 }, perc: 'none', vol: 0.85,
+    dyn: [0.6, 0.7, 0.85, 0.95, 0.7, 0.85, 1.0, 0.65],
+    mel: 'r:1 4:1 7:2 6:1.5 5:0.5 4:2 r:1 3:1 5:2 4:3 2:1 r:1 4:1 7:2 9:1.5 8:0.5 7:2 6:1 5:1 4:1 3:1 4:4'
+  },
+  {
+    // 第五章: 迫りくる行進（オリジナル）
+    // 低音の機械的な刻み・半音で下降する不穏な動機・鈍い金属音と太鼓で迫る行進
+    name: '迫りくる行進',
+    bpm: 100, bpb: 4, root: 46, scale: LOC,
+    chords: [0, 1, 0, 1, 4, 5, 1, 0],
+    mi: 'brass', mo: 0, pad: 'darkPad', bass: [0, 1, 2, 3], bi: 'bassS',
+    arp: { s: 0.5, i: 'pluck', o: 0, pat: [0, 0, 2, 0] },
+    perc: 'incinerator', vol: 1.15,
+    dyn: [0.8, 0.9, 0.95, 1.0, 1.0, 1.05, 1.1, 0.9],
+    dbl: { i: 'brass', o: 12, v: 0.35 },
+    mel: '0:1.5 r:0.5 0:1 1:1 0:1.5 r:0.5 -1:1 0:1 3:1 2:1 1:1 0:1 1:2 0:2 4:1.5 r:0.5 4:1 3:1 5:1 4:1 3:1 2:1 3:1 2:0.5 1:0.5 0:1 -1:1 0:3 r:1'
+  },
+  {
+    // 第六章: 魔王の玉座（低音の金管とティンパニ。重く、ゆっくり下降する旋律）
+    name: '魔王の玉座',
+    bpm: 104, bpb: 4, root: 45, scale: LOC, // A Locrian
+    chords: [0, 0, 1, 0, 0, 5, 4, 0],
+    mi: 'brass', mo: 0, pad: 'darkPad', bass: [0, 1, 2, 3], bi: 'bassS', perc: 'dark', vol: 1.1,
+    dyn: [0.85, 0.9, 0.95, 1.0, 0.9, 0.95, 1.0, 0.85],
+    dbl: { i: 'brass', o: -12, v: 0.7 },
+    mel: '0:2 -1:1 -2:1 0:1.5 1:0.5 3:2 2:1 1:1 0:2 -1:3 r:1 4:2 3:1 1:1 2:2 0:2 1:1 0:1 -1:1 -2:1 0:4'
+  },
+  {
+    // 最終章: 七つの光（金管と弦の盛り上がり）
+    name: '七つの光',
+    bpm: 84, bpb: 4, root: 57, scale: MIN, // A Minor（ブラスと弦の壮大な盛り上がり。エピローグのピアノ曲と差が出るようにした）
+    chords: [0, 5, 2, 6, 0, 5, 3, 0],
+    mi: 'brass', mo: 0, pad: 'strings', bass: [0, 2], bi: 'brassBass', perc: 'epic', vol: 1.0,
+    dyn: [0.6, 0.7, 0.8, 0.9, 0.95, 1.05, 1.1, 0.95],
+    dbl: { i: 'cellos', o: 12, v: 0.4 },
+    mel: '0:1 2:1 4:2 3:1 2:1 0:2 r:1 2:1 4:1 5:1 4:3 2:1 0:1 2:1 4:2 7:2 6:1 5:1 4:1 5:1 6:1 4:1 7:4'
+  },
+  {
+    // エピローグ: 夜明けの歌（オリジナル）
+    // ゆったりしたピアノの分散和音・やわらかな弦とフルート・やさしい長調で余韻を残す
+    name: '夜明けの歌',
+    // 前半(1〜4小節)はしっとりしたピアノ、後半(5〜8小節)は「新たな冒険の始まり」の高揚感ある曲調に変化
+    bpm: 66, bpb: 4, root: 55, scale: MAJ,
+    chords: [0, 4, 5, 3, 3, 4, 0, 4],
+    mi: 'piano', mo: 12, pad: 'warmStrings', bass: [0], bi: 'piano',
+    arp: { s: 0.5, i: 'harp', o: 0, pat: [0, 2, 4, 7, 4, 2, 4, 2] },
+    perc: 'none', vol: 0.9,
+    dyn: [0.55, 0.65, 0.75, 0.85, 0.9, 1.0, 1.1, 1.0],
+    dbl: { i: 'flute', o: 0, v: 0.35 },
+    lift: { from: 4, bpm: 92, i: 'brass', o: 0, v: 0.45, pad: 'strings', bass: [0, 1, 2, 3],
+            arp: { s: 0.5, i: 'harp', o: 12, pat: [0, 2, 4, 7, 9, 7, 4, 2] } },
+    mel: 'r:1 4:1 7:2 6:1.5 5:0.5 4:2 5:1 7:1 9:2 8:1.5 7:0.5 5:2 4:1 7:1 9:1 11:1 12:1.5 11:0.5 9:1 11:1 9:0.5 11:0.5 12:1 14:2 13:1.5 12:0.5 11:2'
+  }
+];
+
+/* 楽器定義（波形、フィルタ、エンベロープ） */
+var INSTRUMENTS = {
+  brass: { o: [['sawtooth', -6, 1, 1], ['sawtooth', 6, 1, 1], ['square', 0, 0.5, 0.3]], a: 0.05, r: 0.2, lp: 2800, v: 0.18 },
+  brassPad: { o: [['sawtooth', -8, 1, 1], ['sawtooth', 8, 1, 1]], a: 0.4, r: 0.6, lp: 1600, v: 0.12 },
+  brassBass: { o: [['sawtooth', -4, 1, 1], ['square', 0, 1, 0.8]], a: 0.02, d: 0.4, lp: 900, v: 0.28 },
+  strings: { o: [['sawtooth', -7, 1, 1], ['sawtooth', 7, 1, 1]], a: 0.45, r: 0.8, lp: 1600, v: 0.12 },
+  warmStrings: { o: [['sawtooth', -10, 1, 1], ['sawtooth', 10, 1, 1], ['triangle', 0, 1, 0.5]], a: 0.6, r: 1.0, lp: 1200, v: 0.13 },
+  soloViolin: { o: [['sawtooth', -3, 1, 1], ['sine', 0, 2, 0.3]], a: 0.15, r: 0.4, lp: 2400, v: 0.19, vib: 5.5 },
+  cellos: { o: [['sawtooth', -5, 1, 1], ['sawtooth', 5, 1, 1]], a: 0.08, r: 0.3, lp: 1800, v: 0.22 },
+  darkPad: { o: [['sawtooth', -12, 1, 1], ['sawtooth', 12, 1, 1], ['square', 0, 0.5, 0.6]], a: 0.8, r: 1.0, lp: 650, v: 0.14 },
+  mystic: { o: [['sine', 0, 1, 1], ['sine', 0, 3, 0.2]], a: 0.5, r: 0.8, lp: 2000, v: 0.12 },
+  pluck: { o: [['sawtooth', 0, 1, 1], ['triangle', 0, 1, 1]], a: 0.005, d: 0.18, lp: 2600, v: 0.16 },
+  celesta: { o: [['sine', 0, 1, 1], ['sine', 0, 4, 0.35], ['sine', 0, 8, 0.1]], a: 0.003, d: 1.4, lp: 6500, v: 0.22 },
+  harp: { o: [['triangle', 0, 1, 1], ['sine', 0, 2, 0.3]], a: 0.005, d: 1.1, lp: 3800, v: 0.16 },
+  piano: { o: [['triangle', 0, 1, 1], ['sine', 0, 2, 0.4]], a: 0.005, d: 1.6, lp: 3200, v: 0.22 },
+  flute: { o: [['sine', 0, 1, 1], ['triangle', 0, 2, 0.15]], a: 0.1, r: 0.25, lp: 3200, v: 0.22, vib: 5.0 },
+  irishFlute: { o: [['sine', 0, 1, 1], ['triangle', 0, 2, 0.2], ['sine', 0, 3, 0.08]], a: 0.08, r: 0.3, lp: 3800, v: 0.24, vib: 4.8 },
+  bassS: { o: [['sawtooth', 0, 1, 0.5], ['sine', 0, 1, 1]], a: 0.005, d: 0.22, lp: 800, v: 0.32 },
+  bass: { o: [['sine', 0, 1, 1], ['triangle', 0, 1, 0.5]], a: 0.01, d: 0.7, lp: 500, v: 0.3 }
+};
+
+var ctx, master, verb, noiseBuffer, isOn = false, currentTrackIdx = -1, liveTrack = null;
+var ducked = false; // 朗読中はBGMを小さくする
+
+// AudioContext初期化
+function initAudio() {
+  if (ctx) return;
+  var AudioCtx = window.AudioContext || window.webkitAudioContext;
+  ctx = new AudioCtx();
+  
+  master = ctx.createGain();
+  master.gain.value = ducked ? 0.28 : 0.75;
+
+  var compressor = ctx.createDynamicsCompressor();
+  compressor.threshold.value = -16;
+  compressor.knee.value = 30;
+  compressor.ratio.value = 8;
+  compressor.attack.value = 0.003;
+  compressor.release.value = 0.25;
+
+  master.connect(compressor);
+  compressor.connect(ctx.destination);
+
+  var irLength = ctx.sampleRate * 2.5;
+  var irBuffer = ctx.createBuffer(2, irLength, ctx.sampleRate);
+  for (var c = 0; c < 2; c++) {
+    var d = irBuffer.getChannelData(c);
+    for (var i = 0; i < irLength; i++) {
+      d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / irLength, 2.2);
+    }
+  }
+  verb = ctx.createConvolver();
+  verb.buffer = irBuffer;
+  var verbGain = ctx.createGain();
+  verbGain.gain.value = 0.38;
+  verb.connect(verbGain);
+  verbGain.connect(master);
+
+  noiseBuffer = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+  var nd = noiseBuffer.getChannelData(0);
+  for (var j = 0; j < nd.length; j++) {
+    nd[j] = Math.random() * 2 - 1;
+  }
+}
+
+// 度数変換
+function getPitch(track, degree) {
+  var len = track.scale.length;
+  var octave = Math.floor(degree / len);
+  var idx = ((degree % len) + len) % len;
+  return track.root + track.scale[idx] + (12 * octave);
+}
+
+// メロディイベントのパース
+TRACKS.forEach(function(track) {
+  var events = [];
+  var beatPos = 0;
+  var parts = track.mel.split(/\s+/);
+  parts.forEach(function(p) {
+    if (!p) return;
+    var pair = p.split(':');
+    var len = parseFloat(pair[1]);
+    if (pair[0] !== 'r') {
+      var deg = parseFloat(pair[0]);
+      events.push({ beat: beatPos, len: len, midi: getPitch(track, deg) + track.mo });
+    }
+    beatPos += len;
+  });
+  track.parsedEvents = events;
+});
+
+// 単音再生
+function playNote(bus, instName, midiNote, startTime, duration, velocity) {
+  var inst = INSTRUMENTS[instName] || INSTRUMENTS.brass;
+  var freq = 440 * Math.pow(2, (midiNote - 69) / 12);
+  var noteGain = ctx.createGain();
+  var filter = ctx.createBiquadFilter();
+  var vel = inst.v * velocity;
+  var endTime;
+
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(inst.lp * 0.4, startTime);
+  filter.frequency.linearRampToValueAtTime(inst.lp, startTime + inst.a + 0.05);
+
+  noteGain.gain.setValueAtTime(0, startTime);
+  noteGain.gain.linearRampToValueAtTime(vel, startTime + inst.a);
+
+  if (inst.d) {
+    noteGain.gain.exponentialRampToValueAtTime(0.0001, startTime + inst.a + inst.d);
+    endTime = startTime + inst.a + inst.d + 0.1;
+  } else {
+    var hold = Math.max(duration, inst.a);
+    noteGain.gain.setValueAtTime(vel, startTime + hold);
+    noteGain.gain.linearRampToValueAtTime(0, startTime + hold + inst.r);
+    endTime = startTime + hold + inst.r + 0.1;
+  }
+
+  filter.connect(noteGain);
+  noteGain.connect(bus);
+
+  inst.o.forEach(function(oscSpec) {
+    var osc = ctx.createOscillator();
+    var oscGain = ctx.createGain();
+    osc.type = oscSpec[0];
+    osc.frequency.value = freq * oscSpec[2];
+    osc.detune.value = oscSpec[1];
+    oscGain.gain.value = oscSpec[3];
+
+    if (inst.vib) {
+      var lfo = ctx.createOscillator();
+      var lfoGain = ctx.createGain();
+      lfo.frequency.value = inst.vib;
+      lfoGain.gain.value = 10;
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.detune);
+      lfo.start(startTime);
+      lfo.stop(endTime);
+    }
+
+    osc.connect(oscGain);
+    oscGain.connect(filter);
+    osc.start(startTime);
+    osc.stop(endTime);
+  });
+}
+
+// 打楽器合成
+function playDrum(bus, type, startTime, velocity) {
+  var g = ctx.createGain();
+  g.connect(bus);
+
+  if (type === 'timp' || type === 'kick' || type === 'anvil') {
+    var osc = ctx.createOscillator();
+    var baseFreq = type === 'anvil' ? 420 : (type === 'timp' ? 130 : 100);
+    var dropFreq = type === 'anvil' ? 180 : (type === 'timp' ? 50 : 40);
+    osc.frequency.setValueAtTime(baseFreq, startTime);
+    osc.frequency.exponentialRampToValueAtTime(dropFreq, startTime + 0.2);
+    g.gain.setValueAtTime(velocity * (type === 'anvil' ? 0.9 : (type === 'timp' ? 0.7 : 0.8)), startTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, startTime + (type === 'anvil' ? 0.4 : (type === 'timp' ? 0.75 : 0.25)));
+    osc.connect(g);
+    osc.start(startTime);
+    osc.stop(startTime + 0.8);
+    return;
+  }
+
+  var src = ctx.createBufferSource();
+  var flt = ctx.createBiquadFilter();
+  src.buffer = noiseBuffer;
+  flt.type = (type === 'hat') ? 'highpass' : 'bandpass';
+  flt.frequency.value = (type === 'hat') ? 7500 : 1800;
+
+  g.gain.setValueAtTime(velocity * (type === 'hat' ? 0.15 : 0.35), startTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, startTime + (type === 'hat' ? 0.05 : 0.18));
+
+  src.connect(flt);
+  flt.connect(g);
+  src.start(startTime);
+  src.stop(startTime + 0.2);
+}
+
+// 1小節単位の再生スケジューラ
+function scheduleBar(track, barIdx, time, secPerBeat, bus) {
+  var dynamic = track.dyn[barIdx];
+  var chordRoot = track.chords[barIdx];
+  var triad = [0, 2, 4].map(function(k) { return getPitch(track, chordRoot + k); });
+  var at = function(beat) { return time + beat * secPerBeat; };
+  var lifted = !!(track.lift && barIdx >= track.lift.from);
+
+  if (lifted && track.lift.pad) {
+    triad.forEach(function(m) {
+      playNote(bus, track.lift.pad, m, time, track.bpb * secPerBeat, 0.6 * dynamic);
+    });
+  }
+  if (lifted && track.lift.bass) {
+    track.lift.bass.forEach(function(beat) {
+      playNote(bus, 'bass', triad[0] - 12, at(beat), secPerBeat * 0.9, 0.7 * dynamic);
+    });
+  }
+
+  // パッド音
+  if (track.pad) {
+    triad.forEach(function(m) {
+      playNote(bus, track.pad, m, time, track.bpb * secPerBeat, 0.75 * dynamic);
+    });
+  }
+
+  // ベース音
+  if (track.bass) {
+    track.bass.forEach(function(beat) {
+      playNote(bus, track.bi || 'bass', triad[0] - 12, at(beat), secPerBeat * 0.9, 0.85 * dynamic);
+    });
+  }
+
+  // 主旋律
+  track.parsedEvents.forEach(function(e) {
+    if (Math.floor(e.beat / track.bpb) !== barIdx) return;
+    var localBeat = e.beat - barIdx * track.bpb;
+    var vel = dynamic * (localBeat === 0 ? 1.15 : 0.95);
+    playNote(bus, track.mi, e.midi, at(localBeat), e.len * secPerBeat * 0.95, vel);
+
+    if (track.dbl) {
+      playNote(bus, track.dbl.i, e.midi + track.dbl.o, at(localBeat), e.len * secPerBeat * 0.95, vel * track.dbl.v);
+    }
+    if (lifted) {
+      playNote(bus, track.lift.i, e.midi + track.lift.o, at(localBeat), e.len * secPerBeat * 0.95, vel * track.lift.v);
+    }
+  });
+
+  // アルペジオ
+  var arpCfg = (lifted && track.lift.arp) ? track.lift.arp : track.arp;
+  if (arpCfg) {
+    var steps = Math.round(track.bpb / arpCfg.s);
+    var pat = (arpCfg.pat || [0, 2, 4, 2]).map(function(off) { return getPitch(track, chordRoot + off); });
+    for (var k = 0; k < steps; k++) {
+      playNote(bus, arpCfg.i, pat[k % pat.length] + arpCfg.o, at(k * arpCfg.s), arpCfg.s * secPerBeat * 1.4, (k % pat.length === 0 ? 0.65 : 0.5) * dynamic);
+    }
+  }
+
+  // リズム
+  var perc = track.perc || 'none';
+  var d = function(k, b, v) { playDrum(bus, k, at(b), v * dynamic); };
+  var i;
+
+  if (perc === 'march') {
+    d('timp', 0, 1.0); d('timp', 2, 0.8);
+    d('snare', 1, 0.7); d('snare', 3, 0.7);
+  } else if (perc === 'pirate') {
+    d('timp', 0, 1.1); d('timp', 3, 1.0);
+    [2, 5].forEach(function(b) { d('snare', b, 0.8); });
+    [1, 4].forEach(function(b) { d('hat', b, 0.6); });
+  } else if (perc === 'incinerator') {
+    d('anvil', 0, 1.0); d('timp', 2, 0.9);
+    [1, 3].forEach(function(b) { d('snare', b, 0.7); });
+    for (i = 0; i < 8; i++) d('hat', i * 0.5, i % 2 ? 0.35 : 0.6);
+  } else if (perc === 'battle') {
+    [0, 1, 2, 3].forEach(function(b, j) { d('timp', b, [1, 0.7, 0.9, 0.7][j]); });
+    d('snare', 1, 0.9); d('snare', 3, 0.9);
+  } else if (perc === 'dark') {
+    for (i = 0; i < 4; i++) d('timp', i, i === 0 ? 1.0 : 0.6);
+  } else if (perc === 'epic') {
+    if (barIdx >= 4) {
+      d('timp', 0, 0.95); d('timp', 2, 0.8);
+      if (barIdx >= 6) { d('snare', 1, 0.7); d('snare', 3, 0.7); }
+    } else if (barIdx === 0) {
+      d('timp', 0, 0.4);
+    }
+  } else if (perc === 'soft') {
+    d('timp', 0, 0.4);
+  }
+
+  // 後半の高揚感用リズム（前進するような軽やかな行進）
+  if (lifted) {
+    d('timp', 0, 0.7); d('timp', 2, 0.5);
+    d('snare', 1, 0.4); d('snare', 3, 0.5);
+    for (i = 0; i < 8; i++) d('hat', i * 0.5, i % 2 ? 0.3 : 0.5);
+  }
+}
+
+// 楽曲再生開始
+function startTrack(trackIdx) {
+  var track = TRACKS[trackIdx];
+  var bus = ctx.createGain();
+  var send = ctx.createGain();
+  var now = ctx.currentTime;
+  var secPerBeat = 60 / track.bpm;
+  var barIdx = 0;
+  var nextBarTime = now + 0.1;
+
+  bus.gain.setValueAtTime(0, now);
+  bus.gain.linearRampToValueAtTime(track.vol || 1.0, now + 1.8);
+
+  bus.connect(master);
+  send.gain.value = 0.45;
+  bus.connect(send);
+  send.connect(verb);
+
+  var timerId = setInterval(function() {
+    while (nextBarTime < ctx.currentTime + 0.8) {
+      var barSpb = (track.lift && barIdx >= track.lift.from && track.lift.bpm) ? 60 / track.lift.bpm : secPerBeat;
+      scheduleBar(track, barIdx, nextBarTime, barSpb, bus);
+      nextBarTime += track.bpb * barSpb;
+      barIdx = (barIdx + 1) % 8;
+    }
+  }, 120);
+
+  return { bus: bus, id: timerId };
+}
+
+// 楽曲停止
+function stopTrack(instance) {
+  if (!instance) return;
+  clearInterval(instance.id);
+  var g = instance.bus.gain;
+  var now = ctx.currentTime;
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(g.value, now);
+  g.linearRampToValueAtTime(0, now + 1.8);
+  setTimeout(function() {
+    try { instance.bus.disconnect(); } catch(e){}
+  }, 2000);
+}
+
+// セクション連動処理
+var chapterHeads = [].slice.call(document.querySelectorAll('.chapter:not(.chars) .ch-head'));
+var bgmBtn = document.getElementById('bgm');
+var bgmTxt = document.getElementById('bgmText');
+var soundPrompt = document.getElementById('soundPrompt');
+
+function getActiveChapterIndex() {
+  var activeIdx = 0;
+  var threshold = window.innerHeight * 0.35;
+  chapterHeads.forEach(function(head, idx) {
+    var rect = head.getBoundingClientRect();
+    if (rect.top <= threshold) {
+      activeIdx = idx;
+    }
+  });
+  return activeIdx;
+}
+
+function updateUI() {
+  bgmBtn.setAttribute('aria-pressed', isOn);
+  if (isOn && currentTrackIdx >= 0) {
+    bgmTxt.textContent = 'BGM ON ｜ ' + TRACKS[currentTrackIdx].name;
+  } else {
+    bgmTxt.textContent = 'BGM OFF';
+  }
+
+  chapterHeads.forEach(function(head, idx) {
+    if (isOn && idx === currentTrackIdx) {
+      head.classList.add('active-bgm');
+    } else {
+      head.classList.remove('active-bgm');
+    }
+  });
+}
+
+function switchToTrack(idx) {
+  if (idx === currentTrackIdx && liveTrack) return;
+  currentTrackIdx = idx;
+  if (liveTrack) stopTrack(liveTrack);
+  liveTrack = startTrack(idx);
+  updateUI();
+}
+
+var rafId = 0;
+window.addEventListener('scroll', function() {
+  if (rafId || !isOn) return;
+  rafId = requestAnimationFrame(function() {
+    rafId = 0;
+    switchToTrack(getActiveChapterIndex());
+  });
+}, { passive: true });
+
+bgmBtn.addEventListener('click', function() {
+  initAudio();
+  if (soundPrompt) {
+    soundPrompt.style.display = 'none';
+  }
+  
+  isOn = !isOn;
+  if (isOn) {
+    ctx.resume();
+    switchToTrack(getActiveChapterIndex());
+  } else {
+    if (liveTrack) {
+      stopTrack(liveTrack);
+      liveTrack = null;
+    }
+    currentTrackIdx = -1;
+    updateUI();
+  }
+});
+
+if (soundPrompt) {
+  document.addEventListener('click', function handler() {
+    if (!isOn) {
+      bgmBtn.click();
+    }
+    document.removeEventListener('click', handler);
+  }, { once: true });
+}
+
+document.addEventListener('visibilitychange', function() {
+  if (!ctx || !isOn) return;
+  if (document.hidden) {
+    ctx.suspend();
+  } else {
+    ctx.resume();
+  }
+});
+
+// 朗読（読み聞かせ）から呼ばれる: 朗読中はBGM音量を下げる
+window.__bgmDuck = function(on) {
+  ducked = !!on;
+  if (master && ctx) {
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.setTargetAtTime(ducked ? 0.28 : 0.75, ctx.currentTime, 0.3);
+  }
+};
+
+})();
+</script>
+<script>
+/*
+ * 読み聞かせ（自動朗読）: Web Speech API (speechSynthesis)
+ * - 日本語の女性の声を優先して自動選択（端末にある声から選ぶ。声の種類は端末・ブラウザ依存）
+ * - 文ごとに区切って読み、いま読んでいる段落をハイライトして自動スクロール
+ * - 朗読中はBGMの音量を下げる（window.__bgmDuck）
+ */
+(function(){
+if(!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined'){
+  var box = document.getElementById('reader');
+  if(box) box.style.display = 'none';
+  return;
+}
+var synth = window.speechSynthesis;
+var $ = function(id){ return document.getElementById(id); };
+var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/* ---------- 読み間違いしやすい言葉の補正 ---------- */
+var YOMI = [
+  ['古文書','こもんじょ'], ['一行','いっこう'], ['一頭','いっとう'], ['二人','ふたり'], ['七つ','ななつ'],
+  ['一同','いちどう'], ['最奥','いちばんおく'], ['賢王','けんおう'], ['猫族','ねこぞく'], ['猿族','さるぞく'],
+  ['大災害','だいさいがい'], ['魔王軍','まおうぐん'], ['・完','、おしまい']
+];
+function normalize(t){
+  t = t.replace(/\s+/g, '');
+  YOMI.forEach(function(p){ t = t.split(p[0]).join(p[1]); });
+  return t.replace(/…+/g, '、').replace(/[—―]+/g, '').replace(/[「」『』]/g, '');
+}
+/* 長い文は区切って、読み上げが途中で止まるのを防ぐ */
+function chunk(t){
+  var parts = t.match(/[^。！？!?]+[。！？!?]*/g) || [t];
+  var out = [];
+  parts.forEach(function(s){
+    while(s.length > 90){
+      var cut = s.lastIndexOf('、', 90);
+      if(cut < 20) cut = 89;
+      out.push(s.slice(0, cut + 1));
+      s = s.slice(cut + 1);
+    }
+    if(s) out.push(s);
+  });
+  return out;
+}
+
+/* ---------- 読む順番（DOMから作る） ---------- */
+var GAP = { title:1600, head:1400, say:600, p:700, kw:900, moral:1200, fin:0 };
+var items = [], chapters = [];
+[].slice.call(document.querySelectorAll('.chapter:not(.chars)')).forEach(function(sec, ci){
+  function add(el, text, type){
+    var t = normalize(text);
+    if(!t) return;
+    items.push({ el: el, type: type, ci: ci, chunks: chunk(t), gap: GAP[type] });
+  }
+  var h1 = sec.querySelector('h1.title');
+  if(h1) add(h1, h1.textContent, 'title');
+  var h2 = sec.querySelector('.ch-head h2');
+  var small = h2.querySelector('small');
+  var label = small ? small.textContent : '';
+  var main = h2.textContent.replace(label, '');
+  chapters.push({ label: (label + ' ' + main).trim(), start: items.length });
+  add(h2, label + '、' + main, 'head');
+  [].slice.call(sec.querySelectorAll('.text p, .closing .moral, .closing .fin')).forEach(function(p){
+    var type = p.classList.contains('say') ? 'say' : p.classList.contains('kw') ? 'kw' :
+               p.classList.contains('moral') ? 'moral' : p.classList.contains('fin') ? 'fin' : 'p';
+    add(p, p.textContent, type);
+  });
+});
+
+/* ---------- 声の選択（女性の声を優先） ---------- */
+var voices = [];
+var voiceSel = $('rdVoice');
+var PREF = ['nanami','mayu','shiori','aoi','google','kyoko','o-ren','oren','haruka','ayumi','sayaka','mizuki'];
+var MALE = /otoya|hattori|ichiro|keita|kenji|takumi|naoki|daichi|男性|\bmale\b/i;
+function isJa(v){ return /^ja([-_]|$)/i.test(v.lang); }
+function score(v){
+  var n = v.name.toLowerCase();
+  if(MALE.test(n)) return -100;
+  if(/female|女性/.test(n)) return 50;
+  var s = 0;
+  PREF.forEach(function(k, i){ if(n.indexOf(k) >= 0) s = Math.max(s, 30 - i); });
+  return s;
+}
+function store(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+function loadVoices(){
+  voices = (synth.getVoices() || []).filter(isJa);
+  voices.sort(function(a, b){ return score(b) - score(a); });
+  voiceSel.innerHTML = '';
+  if(!voices.length){
+    var o0 = document.createElement('option');
+    o0.textContent = '（自動）';
+    voiceSel.appendChild(o0);
+    $('rdNote').textContent = 'この端末では日本語の音声が見つかりませんでした。端末の設定で日本語の音声を追加してください。';
+    return;
+  }
+  voices.forEach(function(v){
+    var o = document.createElement('option');
+    o.value = v.voiceURI || v.name;
+    o.textContent = v.name + (score(v) < 0 ? '（男性）' : '');
+    voiceSel.appendChild(o);
+  });
+  var saved = load('rd.voice');
+  if(saved && voices.some(function(v){ return (v.voiceURI || v.name) === saved; })) voiceSel.value = saved;
+  var sel = voices.filter(function(v){ return (v.voiceURI || v.name) === voiceSel.value; })[0] || voices[0];
+  $('rdNote').textContent = score(sel) > 0 ? '' :
+    'この声が女性かどうか判定できませんでした。「声」から別の声も試してください。';
+}
+function curVoice(){
+  var val = voiceSel.value;
+  for(var i = 0; i < voices.length; i++){ if((voices[i].voiceURI || voices[i].name) === val) return voices[i]; }
+  return null;
+}
+loadVoices();
+if(synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
+setTimeout(loadVoices, 500);
+setTimeout(loadVoices, 1500);
+
+/* ---------- 章セレクト ---------- */
+var chSel = $('rdChapter');
+chapters.forEach(function(c, i){
+  var o = document.createElement('option');
+  o.value = i; o.textContent = c.label;
+  chSel.appendChild(o);
+});
+
+/* ---------- 設定の保存と復元 ---------- */
+var rateEl = $('rdRate'), pitchEl = $('rdPitch');
+if(load('rd.rate')) rateEl.value = load('rd.rate');
+if(load('rd.pitch')) pitchEl.value = load('rd.pitch');
+$('rdRateV').textContent = (+rateEl.value).toFixed(2);
+$('rdPitchV').textContent = (+pitchEl.value).toFixed(2);
+
+/* ---------- 再生エンジン ---------- */
+var idx = 0, chunkPos = 0, state = 'idle', token = 0, timer = null, errs = 0, curEl = null, wake = null;
+
+/* ---------- 朗読中の画像ビューア ---------- */
+var viewer = $('rdViewer'), vImg = viewer.querySelector('img'), viewChk = $('rdView');
+var secs = [].slice.call(document.querySelectorAll('.chapter:not(.chars)'));
+var viewOn = load('rd.view') !== '0', viewShown = false, viewSec = -1, viewRaf = 0;
+viewChk.checked = viewOn;
+function setViewer(show){
+  if(show === viewShown) return;
+  viewShown = show;
+  viewer.classList.toggle('on', show);
+  viewer.setAttribute('aria-hidden', show ? 'false' : 'true');
+}
+/* その章の絵が画面にどれくらい見えているか（0〜1） */
+function figRatio(sec){
+  var f = sec.querySelector('figure');
+  if(!f) return 0;
+  var r = f.getBoundingClientRect(), vh = window.innerHeight;
+  var ov = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+  if(ov <= 0) return 0;
+  return ov / Math.min(r.height, vh * 0.6);
+}
+function updateViewer(){
+  viewRaf = 0;
+  if(state === 'idle' || !viewOn || !items[idx]){ setViewer(false); return; }
+  var ci = items[idx].ci, sec = secs[ci];
+  var ratio = figRatio(sec);
+  /* 絵がすでに画面に見えているときは出さない（ちらつき防止に出入りで基準を変える） */
+  var show = viewShown ? !(ratio > 0.75) : (ratio < 0.4);
+  if(show && ci !== viewSec){
+    var img = sec.querySelector('figure img');
+    if(img){ vImg.src = img.currentSrc || img.src; vImg.alt = img.alt || ''; }
+    viewSec = ci;
+  }
+  setViewer(show);
+}
+function scheduleViewer(){ if(!viewRaf) viewRaf = requestAnimationFrame(updateViewer); }
+window.addEventListener('scroll', scheduleViewer, { passive: true });
+window.addEventListener('resize', scheduleViewer);
+viewChk.addEventListener('change', function(){
+  viewOn = viewChk.checked;
+  store('rd.view', viewOn ? '1' : '0');
+  scheduleViewer();
+});
+
+function duck(on){ if(window.__bgmDuck) window.__bgmDuck(on); }
+function wakeOn(){
+  try{
+    if(navigator.wakeLock && !wake){
+      navigator.wakeLock.request('screen').then(function(l){
+        wake = l; l.addEventListener('release', function(){ wake = null; });
+      }).catch(function(){});
+    }
+  }catch(e){}
+}
+function wakeOff(){ try{ if(wake){ wake.release(); wake = null; } }catch(e){} }
+
+function ui(){
+  var playing = state === 'playing';
+  $('rdPlay').setAttribute('aria-pressed', playing);
+  $('rdIco').textContent = playing ? '❚❚' : '▶';
+  $('rdLabel').textContent = playing ? 'ひとやすみ' : (state === 'paused' ? 'つづきから' : 'よみきかせ');
+  $('rdPrev').disabled = $('rdNext').disabled = $('rdStop').disabled = (state === 'idle');
+  $('rdNow').textContent = state === 'idle' ? '' : chapters[items[idx] ? items[idx].ci : 0].label;
+  scheduleViewer();
+}
+function unmark(){ if(curEl){ curEl.classList.remove('rd-on'); curEl = null; } }
+function mark(i){
+  unmark();
+  var it = items[i];
+  curEl = it.el;
+  if(!curEl.classList.contains('title')) curEl.classList.add('rd-on');
+  curEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  chSel.value = it.ci;
+  ui();
+}
+
+function speakChunk(tok){
+  if(tok !== token) return;
+  var it = items[idx];
+  if(chunkPos >= it.chunks.length){
+    timer = setTimeout(function(){
+      if(tok !== token) return;
+      idx++; chunkPos = 0; next(tok);
+    }, it.gap);
+    return;
+  }
+  var u = new SpeechSynthesisUtterance(it.chunks[chunkPos]);
+  u.lang = 'ja-JP';
+  var v = curVoice();
+  if(v){ u.voice = v; u.lang = v.lang; }
+  var rate = +rateEl.value, pitch = +pitchEl.value;
+  u.rate = (it.type === 'head' || it.type === 'title') ? rate * 0.95 : rate;
+  u.pitch = Math.min(2, it.type === 'say' ? pitch + 0.12 : pitch);   // セリフは少し高めに
+  u.onend = function(){ if(tok !== token) return; errs = 0; chunkPos++; speakChunk(tok); };
+  u.onerror = function(e){
+    if(tok !== token) return;
+    if(e && (e.error === 'interrupted' || e.error === 'canceled')) return;
+    if(++errs > 3){
+      stop();
+      $('rdNote').textContent = '音声の再生に失敗しました。もう一度ボタンを押すか、別の声を選んでください。';
+      return;
+    }
+    chunkPos++; speakChunk(tok);
+  };
+  window.__rdUtterance = u;   // ブラウザのGCでonendが呼ばれなくなるのを防ぐ
+  synth.speak(u);
+}
+function next(tok){
+  if(tok !== token) return;
+  if(idx >= items.length){ finish(); return; }
+  mark(idx);
+  speakChunk(tok);
+}
+function play(i, k){
+  clearTimeout(timer);
+  token++;
+  synth.cancel();
+  idx = i; chunkPos = k || 0; state = 'playing'; errs = 0;
+  duck(true); wakeOn(); ui();
+  var tok = token;
+  setTimeout(function(){ next(tok); }, 80);
+}
+function pause(){
+  if(state !== 'playing') return;
+  token++; clearTimeout(timer); synth.cancel();
+  state = 'paused'; duck(false); ui();
+}
+function stop(){
+  token++; clearTimeout(timer); synth.cancel();
+  state = 'idle'; idx = 0; chunkPos = 0;
+  unmark(); duck(false); wakeOff(); ui();
+}
+function finish(){
+  stop();
+  chSel.value = 0;
+}
+function jump(i){
+  i = Math.max(0, Math.min(items.length - 1, i));
+  if(state === 'playing') play(i, 0);
+  else if(state === 'paused'){ idx = i; chunkPos = 0; mark(i); }
+}
+
+/* ---------- ボタン ---------- */
+$('rdPlay').addEventListener('click', function(){
+  if(state === 'playing') pause();
+  else if(state === 'paused') play(idx, chunkPos);
+  else play(chapters[+chSel.value].start, 0);
+});
+$('rdStop').addEventListener('click', stop);
+$('rdPrev').addEventListener('click', function(){ jump(idx - 1); });
+$('rdNext').addEventListener('click', function(){ jump(idx + 1); });
+$('rdSet').addEventListener('click', function(){
+  var panel = $('readerPanel');
+  var open = panel.hidden;
+  panel.hidden = !open;
+  this.setAttribute('aria-expanded', open);
+});
+chSel.addEventListener('change', function(){
+  var start = chapters[+chSel.value].start;
+  if(state === 'idle'){ items[start].el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
+  else jump(start);
+});
+voiceSel.addEventListener('change', function(){
+  store('rd.voice', voiceSel.value);
+  if(state === 'playing') play(idx, chunkPos);
+});
+rateEl.addEventListener('input', function(){ $('rdRateV').textContent = (+rateEl.value).toFixed(2); });
+pitchEl.addEventListener('input', function(){ $('rdPitchV').textContent = (+pitchEl.value).toFixed(2); });
+rateEl.addEventListener('change', function(){ store('rd.rate', rateEl.value); if(state === 'playing') play(idx, chunkPos); });
+pitchEl.addEventListener('change', function(){ store('rd.pitch', pitchEl.value); if(state === 'playing') play(idx, chunkPos); });
+
+/* 朗読中は、読みたい段落をタップするとそこから読み直す */
+document.addEventListener('click', function(e){
+  if(state === 'idle' || !e.target.closest) return;
+  var el = e.target.closest('.text p, .closing .moral, .ch-head h2');
+  if(!el) return;
+  for(var i = 0; i < items.length; i++){
+    if(items[i].el === el){ jump(i); return; }
+  }
+});
+
+/* ---------- 後始末 ---------- */
+document.addEventListener('visibilitychange', function(){
+  if(!document.hidden && state === 'playing') wakeOn();
+});
+window.addEventListener('pagehide', function(){ synth.cancel(); wakeOff(); });
+synth.cancel();
+})();
+</script>
+
+</body>
+</html>

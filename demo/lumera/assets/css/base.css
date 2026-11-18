@@ -1,0 +1,33 @@
+/* ===== Base: fonts / variables / reset / typography ===== */
+/* フォントは assets/fonts に同梱（SIL OFL 1.1）。JIS第1水準までに絞ったサブセット */
+@font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/shippori-mincho-400.woff") format("woff")}
+@font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:600;font-display:swap;src:url("../fonts/shippori-mincho-600.woff") format("woff")}
+@font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:700;font-display:swap;src:url("../fonts/shippori-mincho-700.woff") format("woff")}
+@font-face{font-family:"Zen Kaku Gothic New";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/zen-kaku-gothic-new-400.woff") format("woff")}
+@font-face{font-family:"Zen Kaku Gothic New";font-style:normal;font-weight:500;font-display:swap;src:url("../fonts/zen-kaku-gothic-new-500.woff") format("woff")}
+@font-face{font-family:"Zen Kaku Gothic New";font-style:normal;font-weight:700;font-display:swap;src:url("../fonts/zen-kaku-gothic-new-700.woff") format("woff")}
+:root{
+  --c-bg1:#FBF9F7; --c-bg2:#F0EAE1;
+  --c-gold:#AC8545; --c-gold-dark:#8A6A2F; --c-deco:#C59B76;
+  --c-text:#4A423E; --c-sub:#6E6155; --c-white:#FFFFFF; --c-ph:#A89E91;
+  --c-err-bg:#FBEEEA; --c-err:#B5503E;
+  --f-head:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-body:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --container:1440px;
+  --gutter-pc:120px; --gutter-sp:24px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--c-bg2);color:var(--c-text);font-family:var(--f-body);font-size:14px;line-height:1.8;overflow-x:hidden}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--c-gold);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.page{max-width:var(--container);margin:0 auto;background:var(--c-bg2)}
+/* 表示切替ユーティリティ（コンポーネントの display 指定より優先） */
+.pc-only{display:none!important}
+@media (min-width:768px){body{font-size:16px}.pc-only{display:revert!important}.sp-only{display:none!important}}

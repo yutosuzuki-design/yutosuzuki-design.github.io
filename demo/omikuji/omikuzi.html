@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>未来の私からの手紙 - おみくじ</title>
+  <style>
+    :root {
+      --bg-color: #f7f4ef;
+      --paper-color: #fffdf9;
+      --envelope-color: #e5dacb;
+      --envelope-flap: #d8c8b4;
+      --text-color: #4a4238;
+      --accent-color: #b85b46;
+      --gold-color: #d4af37;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'MS PMincho', serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      min-height: 100svh; /* スマホのアドレスバー対策 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    /* 共通アニメーション */
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 1. スタート画面 */
+    #start-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+      padding: 20px 10px;
+    }
+
+    .title {
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      letter-spacing: 0.15em;
+      line-height: 1.8;
+      font-weight: normal;
+    }
+
+    .sub-title {
+      font-size: clamp(0.8rem, 3vw, 0.95rem);
+      color: #7a7065;
+      letter-spacing: 0.1em;
+    }
+
+    .draw-btn {
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 16px 36px;
+      font-size: clamp(1rem, 4vw, 1.15rem);
+      font-family: inherit;
+      letter-spacing: 0.2em;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(184, 91, 70, 0.2);
+      transition: all 0.3s ease;
+      margin-top: 15px;
+      width: 80%;
+      max-width: 280px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .draw-btn:hover {
+      background-color: #a04b37;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(184, 91, 70, 0.3);
+    }
+
+    .draw-btn:active {
+      transform: translateY(0);
+    }
+
+    /* 2. 封筒アニメーションエリア（レスポンシブサイズ調整） */
+    #envelope-screen {
+      display: none;
+      position: relative;
+      width: clamp(240px, 75vw, 300px);
+      height: clamp(155px, 48vw, 195px);
+      margin: 30px 0;
+      perspective: 1000px;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background-color: var(--envelope-color);
+      border-radius: 6px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 封筒の蓋（フラップ） */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: calc(clamp(240px, 75vw, 300px) / 2) solid transparent;
+      border-right: calc(clamp(240px, 75vw, 300px) / 2) solid transparent;
+      border-top: calc(clamp(155px, 48vw, 195px) * 0.55) solid var(--envelope-flap);
+      transform-origin: top;
+      transition: transform 0.8s ease 0.2s;
+      z-index: 3;
+    }
+
+    .envelope.open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .stamp {
+      width: clamp(42px, 12vw, 52px);
+      height: clamp(42px, 12vw, 52px);
+      background-color: var(--accent-color);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+      letter-spacing: 0.1em;
+      border: 2px dashed #fff;
+      z-index: 4;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: opacity 0.4s ease;
+    }
+
+    .envelope.open .stamp {
+      opacity: 0;
+    }
+
+    /* 中の手紙 */
+    .letter-preview {
+      position: absolute;
+      bottom: 10px;
+      width: 90%;
+      height: 80%;
+      background-color: var(--paper-color);
+      border-radius: 4px;
+      z-index: 2;
+      transition: transform 0.8s ease 0.8s, opacity 0.5s ease 1.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 15px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #8a8075;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      letter-spacing: 0.2em;
+    }
+
+    .envelope.open .letter-preview {
+      transform: translateY(-90px);
+    }
+
+    /* 3. 手紙・結果画面 */
+    #result-screen {
+      display: none;
+      width: 100%;
+      background-color: var(--paper-color);
+      padding: clamp(25px, 6vw, 40px) clamp(16px, 5vw, 28px);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid #eae3d9;
+      position: relative;
+    }
+
+    .letter-header {
+      font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+      color: #8c8275;
+      border-bottom: 1px solid #eee6dc;
+      padding-bottom: 10px;
+      margin-bottom: clamp(20px, 5vw, 30px);
+      letter-spacing: 0.1em;
+    }
+
+    .thank-you-msg {
+      font-size: clamp(1rem, 3.8vw, 1.2rem);
+      line-height: 1.9;
+      color: var(--accent-color);
+      margin-bottom: clamp(25px, 6vw, 35px);
+      font-weight: normal;
+      letter-spacing: 0.08em;
+    }
+
+    .fortune-badge {
+      display: inline-block;
+      font-size: clamp(1.4rem, 5vw, 1.8rem);
+      font-weight: bold;
+      color: var(--accent-color);
+      border: 2px solid var(--accent-color);
+      padding: 4px clamp(16px, 4vw, 24px);
+      border-radius: 4px;
+      margin-bottom: clamp(25px, 6vw, 35px);
+      letter-spacing: 0.25em;
+    }
+
+    .fortune-badge.大吉 {
+      color: var(--gold-color);
+      border-color: var(--gold-color);
+      background-color: rgba(212, 175, 55, 0.05);
+    }
+
+    .main-message {
+      font-size: clamp(0.92rem, 3.2vw, 1.05rem);
+      line-height: 2.1;
+      letter-spacing: 0.06em;
+      text-align: left;
+      white-space: pre-wrap;
+      margin-bottom: clamp(25px, 6vw, 40px);
+      padding: 0 5px;
+      word-break: break-word;
+    }
+
+    .letter-footer {
+      font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+      text-align: right;
+      color: #8c8275;
+      margin-top: 15px;
+      letter-spacing: 0.1em;
+    }
+
+    .retry-btn {
+      background: none;
+      border: 1px solid #d8cebe;
+      color: #7a7065;
+      padding: 10px 24px;
+      font-family: inherit;
+      font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: clamp(20px, 5vw, 30px);
+      transition: all 0.3s ease;
+      letter-spacing: 0.1em;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .retry-btn:hover {
+      background-color: #f0e8dd;
+      color: var(--text-color);
+    }
+
+    /* スマホ画面向けの追加微調整 */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+      
+      .main-message {
+        line-height: 1.95;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. スタート画面 -->
+    <div id="start-screen">
+      <h1 class="title">未来のあなたからの<br>手紙</h1>
+      <p class="sub-title">いつかのあなたがおみくじを届けにきました</p>
+      <button class="draw-btn" onclick="openEnvelope()">手紙を開く</button>
+    </div>
+
+    <!-- 2. 封筒アニメーション画面 -->
+    <div id="envelope-screen">
+      <div class="envelope" id="envelope">
+        <div class="envelope-flap"></div>
+        <div class="stamp">未来より</div>
+        <div class="letter-preview">拝啓、過去のわたしへ</div>
+      </div>
+    </div>
+
+    <!-- 3. 結果画面 -->
+    <div id="result-screen">
+      <div class="letter-header">未来のあなたより</div>
+      
+      <p class="thank-you-msg">「あの日、あの選択をしてくれてありがとう。」</p>
+      
+      <div>運勢：<span id="fortune-type" class="fortune-badge"></span></div>
+      
+      <p id="message-text" class="main-message"></p>
+      
+      <div class="letter-footer">未来のあなたより</div>
+      
+      <button class="retry-btn" onclick="resetApp()">もう一度ひく</button>
+    </div>
+  </div>
+
+  <script>
+    /* ----------------------------------------------------
+       1. 運勢の確率設定 (大吉:5%, 大凶:5%, 中吉/小吉/吉/凶: 各22.5%)
+    ---------------------------------------------------- */
+    function getRandomFortune() {
+      const rand = Math.random() * 100;
+      if (rand < 5) return '大吉';
+      if (rand < 10) return '大凶';
+      if (rand < 32.5) return '中吉';
+      if (rand < 55) return '小吉';
+      if (rand < 77.5) return '吉';
+      return '凶';
+    }
+
+    /* ----------------------------------------------------
+       2. メッセージ（書き出し・中身・締めを、それぞれランダムに1つずつ選ぶ）
+       10 × 10 × 10 = 1000通り。どの文も同じ確率で出る
+    ---------------------------------------------------- */
+    const intros = [
+      "失敗したらどうしようと考えすぎなくていい。",
+      "今悩んでいるその出来事はね、",
+      "ちょっと立ち止まっても大丈夫。",
+      "遠回りだと思っているその道は、",
+      "泣きたくなる夜があってもいいんだよ。",
+      "他人のものさしで自分を測らなくていい。",
+      "焦らなくていい、ちゃんと進んでいるから。",
+      "どんなに小さな歩みでも、",
+      "周りと比べそうになったら思い出して。",
+      "うまくやろうとしなくていい。"
+    ];
+
+    const middles = [
+      "未来の私から見たら、その失敗も愛おしいストーリーの一部だから。",
+      "振り返れば、全部最高の経験になっているんだよ。",
+      "あとから振り返れば、人生の素敵なきっかけだったと思えるから。",
+      "未来の私が立つ素晴らしい景色に、ちゃんと繋がっているから。",
+      "その経験が、あなたの心を誰よりも強く、優しくしてくれたんだ。",
+      "あなたの人生の主役は、どこまでいってもあなたなんだから。",
+      "あなたが今日選んだこと、頑張ったことすべてが明日の糧になっている。",
+      "未来の私は、あなたのその努力をずっと誇りに思っているよ。",
+      "迷った数だけ、未来の私はもっと優しくなれたよ。",
+      "不器用でもいい。そのままのあなたが一番素敵だから。"
+    ];
+
+    const outros = [
+      "だから今日は、好きな温かい飲み物でも飲んでゆっくりおやすみ。",
+      "大丈夫、すべては最高のタイミングでうまくいっているから。",
+      "今日も自分をたくさん褒めてあげてね。",
+      "あなたの今日を、未来の私は心から愛しています。",
+      "安心して、思いのままに今日という日を楽しんで。",
+      "自分の直感を信じて、一歩踏み出してみて。",
+      "大丈夫。未来は、あなたが思っているよりずっと明るいよ。",
+      "あなたはただ、あなたでいればそれで十分だから。",
+      "今日という日を笑って過ごしてね。愛を込めて。",
+      "すべての瞬間が、輝く未来へ繋がっているよ。"
+    ];
+
+    /* 配列の中から1つをランダムに選ぶ */
+    function pick(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function makeMessage() {
+      return `${pick(intros)}\n${pick(middles)}\n${pick(outros)}`;
+    }
+
+    /* ----------------------------------------------------
+       3. アニメーション＆画面切り替え処理
+    ---------------------------------------------------- */
+    function openEnvelope() {
+      const startScreen = document.getElementById('start-screen');
+      const envelopeScreen = document.getElementById('envelope-screen');
+      const envelope = document.getElementById('envelope');
+      const resultScreen = document.getElementById('result-screen');
+
+      startScreen.style.display = 'none';
+      envelopeScreen.style.display = 'block';
+      
+      setTimeout(() => {
+        envelope.classList.add('open');
+      }, 300);
+
+      setTimeout(() => {
+        const fortune = getRandomFortune();
+        const randomMsg = makeMessage();
+
+        const fortuneBadge = document.getElementById('fortune-type');
+        fortuneBadge.innerText = fortune;
+        fortuneBadge.className = `fortune-badge ${fortune}`;
+        document.getElementById('message-text').innerText = randomMsg;
+
+        envelopeScreen.style.display = 'none';
+        resultScreen.style.display = 'block';
+        resultScreen.classList.add('fade-in');
+      }, 2300);
+    }
+
+    /* ----------------------------------------------------
+       4. リセット処理
+    ---------------------------------------------------- */
+    function resetApp() {
+      const startScreen = document.getElementById('start-screen');
+      const envelopeScreen = document.getElementById('envelope-screen');
+      const envelope = document.getElementById('envelope');
+      const resultScreen = document.getElementById('result-screen');
+
+      resultScreen.style.display = 'none';
+      resultScreen.classList.remove('fade-in');
+      envelope.classList.remove('open');
+      
+      startScreen.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

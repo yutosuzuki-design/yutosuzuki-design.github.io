@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLOUD NINE SHISHA | シーシャ専門店</title>
+<style>
+/* ===== 色の変更はここだけ ===== */
+:root{--green:#3ddc84;--bg:#0b0f0d;--mint:#121a16;--ink:#e9f2ed;--gray:#93a59b;--line:#22312a;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg);line-height:1.8}
+img{display:block;width:100%;height:100%;object-fit:cover;filter:brightness(.82) saturate(.9) contrast(1.05)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+section{padding:84px 0}
+.ph{border-radius:var(--r);overflow:hidden;background:var(--mint)}
+h2{font-size:28px;letter-spacing:.06em;margin-bottom:8px}
+.sub{color:var(--green);font-size:12px;letter-spacing:.25em;font-weight:700}
+.head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px}
+.more{font-size:13px;color:var(--green);border-bottom:1px solid var(--green)}
+.btn{display:inline-block;background:var(--green);color:#06140c;padding:14px 34px;border-radius:99px;font-weight:700;font-size:14px;transition:.3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(61,220,132,.3)}
+.btn.line{background:transparent;color:var(--green);border:1px solid var(--green)}
+.reveal{opacity:0;transform:translateY(24px);transition:.8s}
+.reveal.on{opacity:1;transform:none}
+
+/* お知らせバー・ヘッダー */
+.bar{background:var(--green);color:#06140c;font-weight:700;text-align:center;font-size:12px;padding:6px}
+header{position:sticky;top:0;z-index:50;background:rgba(11,15,13,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-weight:800;letter-spacing:.1em;color:var(--green);font-size:18px}
+nav ul{display:flex;gap:26px;list-style:none;font-size:13px;font-weight:600}
+nav a:hover{color:var(--green)}
+.burger{display:none;background:none;border:0;font-size:26px;color:var(--green)}
+
+/* ===== ファーストビュー ===== */
+.hero{position:relative;height:calc(100vh - 100px);min-height:560px;background:radial-gradient(circle at 75% 40%,#143626 0,#0b0f0d 62%);overflow:hidden;padding:0}
+#smoke{position:absolute;inset:0;width:100%;height:100%}
+.slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;visibility:hidden;transition:opacity 1s,visibility 1s}
+.slide.active{opacity:1;visibility:visible}
+.slide .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;width:100%}
+.slide .txt>*{opacity:0;transform:translateY(30px);transition:.9s}
+.slide.active .txt>*{opacity:1;transform:none}
+.slide.active .txt>*:nth-child(2){transition-delay:.15s}
+.slide.active .txt>*:nth-child(3){transition-delay:.3s}
+.slide.active .txt>*:nth-child(4){transition-delay:.45s}
+.slide .txt small{color:var(--green);letter-spacing:.3em;font-weight:700;font-size:12px;display:block}
+.slide .txt h1{font-size:clamp(30px,4.6vw,54px);line-height:1.35;margin:14px 0}
+.slide .txt p{color:var(--gray);margin-bottom:28px;max-width:440px}
+.slide .pic{aspect-ratio:1/1;max-height:62vh;margin:0 auto;border-radius:50% 50% 50% 12%;overflow:hidden;box-shadow:0 24px 60px rgba(61,220,132,.16);transform:scale(.92) rotate(-3deg);transition:1.2s}
+.slide.active .pic{transform:scale(1) rotate(0)}
+.pic img{transition:transform .2s}
+.dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:5}
+.dots button{width:34px;height:4px;border:0;border-radius:4px;background:#2c3d34;cursor:pointer;overflow:hidden;position:relative}
+.dots button.on::after{content:"";position:absolute;inset:0;background:var(--green);transform-origin:left;animation:bar 6s linear forwards}
+@keyframes bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.arrow{position:absolute;top:50%;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#141d18;color:var(--green);font-size:18px;cursor:pointer}
+.arrow.l{left:16px}.arrow.r{right:16px}
+.scroll{position:absolute;right:28px;bottom:26px;font-size:11px;letter-spacing:.2em;color:var(--green);writing-mode:vertical-rl;z-index:5}
+
+/* カテゴリ */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cat{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden}
+.cat img{transition:transform .6s}
+.cat:hover img{transform:scale(1.08)}
+.cat span{position:absolute;left:0;right:0;bottom:0;padding:34px 18px 14px;color:#fff;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,.78))}
+.cat em{display:block;font-size:11px;font-style:normal;opacity:.85;letter-spacing:.15em}
+
+/* お知らせ */
+.news{background:var(--mint)}
+.newsbox{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:center}
+.newsbox li{list-style:none;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px}
+.newsbox time{color:var(--green);font-weight:700;margin-right:14px}
+
+/* ブランド */
+.brands{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.brand{text-align:center;font-size:13px;font-weight:600}
+.brand .ph{aspect-ratio:1/1;margin-bottom:8px}
+
+/* 商品カード */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{transition:.3s}
+.card:hover{transform:translateY(-6px)}
+.card:hover .ph{box-shadow:0 0 0 1px var(--green),0 12px 30px rgba(61,220,132,.15)}
+.card .ph{aspect-ratio:1/1;position:relative;margin-bottom:12px}
+.tag{position:absolute;top:10px;left:10px;z-index:2;background:var(--green);color:#06140c;font-size:11px;padding:2px 12px;border-radius:99px;font-weight:700}
+.card small{color:var(--gray);font-size:12px}
+.card h3{font-size:15px;line-height:1.5}
+.card b{color:var(--green)}
+.rank .tag{background:#e9f2ed;color:#0b0f0d}
+
+/* About */
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about .ph{aspect-ratio:4/3}
+.about p{margin:16px 0 26px;color:var(--gray)}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.mini .ph{aspect-ratio:1/1;border-radius:10px}
+
+/* ブログ */
+.blog{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.blog .ph{aspect-ratio:16/10;margin-bottom:12px}
+.blog time{font-size:12px;color:var(--green)}
+.blog h3{font-size:15px}
+
+/* 卸売 */
+.b2b{background:linear-gradient(135deg,#123c28,#0e1a14);border:1px solid var(--line);color:var(--ink);border-radius:24px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.b2b .in{padding:52px}
+.b2b p{margin:14px 0 24px;opacity:.9}
+
+
+footer{background:#080b09;border-top:1px solid var(--line);padding:56px 0 24px;font-size:13px}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+footer ul{list-style:none}footer li{margin:6px 0;color:var(--gray)}
+.copy{text-align:center;color:var(--gray);margin-top:36px;font-size:12px}
+
+/* 年齢確認 */
+#age{position:fixed;inset:0;z-index:100;background:rgba(8,11,9,.97);display:flex;align-items:center;justify-content:center;transition:.5s}
+#age.hide{opacity:0;visibility:hidden}
+#age div{background:#131a16;border:1px solid var(--line);padding:44px;border-radius:24px;text-align:center;box-shadow:0 20px 60px rgba(12,126,59,.15);max-width:380px}
+#age p{color:var(--gray);font-size:13px;margin:10px 0 24px}
+#age .btn{border:0;cursor:pointer;margin:4px}
+
+/* ギャラリー（オーバーマウスで広がる）・フォトバンド */
+.gal{display:flex;gap:10px;height:520px}
+.gal .ph{flex:1;position:relative;border-radius:14px;cursor:pointer;transition:flex .7s cubic-bezier(.2,.8,.2,1);min-width:0}
+.gal .ph.on{flex:10}
+.gal img{position:absolute;inset:0;filter:brightness(.5) saturate(.75);transition:filter .6s,transform 1s}
+.gal .ph.on img{filter:brightness(.95);transform:scale(1.04)}
+.gal .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.75));pointer-events:none}
+.cap{position:absolute;left:20px;bottom:18px;z-index:2;color:#fff;white-space:nowrap}
+.cap small{display:block;color:var(--green);font-weight:700;letter-spacing:.2em}
+.cap b,.cap span{display:block;opacity:0;transform:translateY(12px);transition:.5s}
+.cap b{font-size:20px}.cap span{font-size:13px;color:#cfdcd4}
+.gal .ph.on .cap b,.gal .ph.on .cap span{opacity:1;transform:none;transition-delay:.25s}
+.hint{text-align:center;color:var(--gray);font-size:11px;letter-spacing:.25em;margin-top:16px}
+.band{position:relative;height:440px;padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+.band>img{position:absolute;left:0;top:-15%;height:130%;width:100%;will-change:transform}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(11,15,13,.55),rgba(11,15,13,.75))}
+.band .in{position:relative;z-index:2}
+.band h2{font-size:clamp(24px,4vw,40px)}
+@media(max-width:820px){
+ .gal{flex-direction:column;height:560px;gap:8px}.cap{left:14px;bottom:12px}
+ section{padding:56px 0}
+ nav{position:absolute;top:68px;left:0;right:0;background:#0b0f0d;display:none;padding:16px 20px;border-bottom:1px solid var(--line)}
+ nav.open{display:block}nav ul{flex-direction:column;gap:14px}
+ .burger{display:block}
+ .slide .wrap{grid-template-columns:1fr;gap:16px;text-align:center}
+ .slide .txt p{margin:0 auto 20px}.slide .pic{max-height:32vh;order:-1}
+ .arrow,.scroll{display:none}
+ .cats,.blog{grid-template-columns:1fr 1fr}.grid,.brands{grid-template-columns:1fr 1fr}
+ .newsbox,.about .wrap,.b2b,.fgrid{grid-template-columns:1fr}.b2b .in{padding:32px}
+}
+</style>
+</head>
+<body>
+
+<!-- 写真：Unsplash（フリー素材／商用利用可・クレジット表記不要）の画像を直接読み込んでいます。
+     差し替える時は各 <img> の src を自分の画像パスに変更（例：src="images/hero1.jpg"）。data-ph は消してOK。
+     撮影者クレジットは https://unsplash.com/s/photos/hookah で各写真を検索すると確認できます。 -->
+<!-- 年齢確認（不要なら #age ごと削除） -->
+<div id="age"><div>
+ <p class="sub">AGE CHECK</p><h2 style="font-size:22px">年齢確認</h2>
+ <p>あなたは20歳以上ですか？<br>※当サイトはタバコ類を含む商品を扱っています。</p>
+ <button class="btn" onclick="document.getElementById('age').classList.add('hide')">はい</button>
+ <button class="btn line" onclick="location.href='https://www.google.com'">いいえ</button>
+</div></div>
+
+<div class="bar">全国送料700円〜 ／ 3,000円以上のご購入で送料無料</div>
+<header><div class="wrap">
+ <a href="#top" class="logo">CLOUD NINE</a><!-- ロゴ：画像にする場合は <img> に差し替え -->
+ <nav id="nav"><ul>
+  <li><a href="#cat">カテゴリ</a></li><li><a href="#news">お知らせ</a></li><li><a href="#brand">ブランド</a></li>
+  <li><a href="#new">新着</a></li><li><a href="#rank">人気</a></li><li><a href="#gallery">ギャラリー</a></li><li><a href="#about">私たちについて</a></li><li><a href="#b2b">卸売</a></li>
+ </ul></nav>
+ <button class="burger" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
+</div></header>
+
+<!-- ========== ファーストビュー（JSで動く） ========== -->
+<!-- 画像の差し替え：<img data-ph="..."> を <img src="images/hero1.jpg" alt="説明"> に変更 -->
+<section class="hero" id="top">
+ <canvas id="smoke"></canvas>
+
+ <div class="slide active"><div class="wrap">
+  <div class="txt">
+   <small>WELCOME TO CLOUD NINE</small>
+   <h1>やさしい煙に包まれる、<br>特別なひとときを。</h1><!-- メインコピー -->
+   <p>世界各国から厳選したフレーバーと、上質なシーシャ道具をお届けします。</p>
+   <a href="#new" class="btn">商品を見る</a>
+  </div>
+  <div class="pic"><img data-ph="800x800 スライド1：シーシャ全体の写真" src="https://images.unsplash.com/photo-1635547821500-77542481940c?auto=format&fit=crop&q=70&w=1000"></div>
+ </div></div>
+
+ <div class="slide"><div class="wrap">
+  <div class="txt">
+   <small>NEW FLAVORS</small>
+   <h1>新作フレーバー、<br>続々入荷中。</h1>
+   <p>フルーツからミント、スイーツ系まで。お気に入りの一本がきっと見つかります。</p>
+   <a href="#brand" class="btn">ブランドから探す</a>
+  </div>
+  <div class="pic"><img data-ph="800x800 スライド2：フレーバー缶の写真" src="https://images.unsplash.com/photo-1685003227041-49af807c0113?auto=format&fit=crop&q=70&w=1000"></div>
+ </div></div>
+
+ <div class="slide"><div class="wrap">
+  <div class="txt">
+   <small>FIRST SHISHA GUIDE</small>
+   <h1>はじめてでも安心。<br>スターターセット。</h1>
+   <p>必要なものがひとそろい。初心者ガイド付きで、今日から楽しめます。</p>
+   <a href="#about" class="btn">初めての方へ</a>
+  </div>
+  <div class="pic"><img data-ph="800x800 スライド3：スターターセットの写真" src="https://images.unsplash.com/photo-1574238752695-675b86d49267?auto=format&fit=crop&q=70&w=1000"></div>
+ </div></div>
+
+ <button class="arrow l" id="prev" aria-label="前へ">←</button>
+ <button class="arrow r" id="next" aria-label="次へ">→</button>
+ <div class="dots" id="dots"></div>
+ <div class="scroll">SCROLL</div>
+</section>
+
+<!-- ========== カテゴリ ========== -->
+<section id="cat"><div class="wrap">
+ <div class="head"><div><p class="sub">CATEGORY</p><h2>カテゴリから探す</h2></div></div>
+ <div class="cats reveal">
+  <!-- カテゴリ名・画像を差し替え -->
+  <a class="cat" href="#"><img data-ph="800x600 フレーバー" src="https://images.unsplash.com/photo-1660778207738-6d2047ef86b9?auto=format&fit=crop&q=70&w=1000"><span><em>FLAVOR</em>フレーバー</span></a>
+  <a class="cat" href="#"><img data-ph="800x600 パイプ" src="https://images.unsplash.com/photo-1763637675322-a8ee73f79deb?auto=format&fit=crop&q=70&w=1000"><span><em>PIPE</em>パイプ</span></a>
+  <a class="cat" href="#"><img data-ph="800x600 ボウル" src="https://images.unsplash.com/photo-1660782644494-d368e4ca2b01?auto=format&fit=crop&q=70&w=1000"><span><em>BOWL</em>ボウル</span></a>
+  <a class="cat" href="#"><img data-ph="800x600 アクセサリー" src="https://images.unsplash.com/photo-1729460728302-a75948cfd61f?auto=format&fit=crop&q=70&w=1000"><span><em>ACCESSORY</em>アクセサリー</span></a>
+  <a class="cat" href="#"><img data-ph="800x600 炭" src="https://images.unsplash.com/photo-1697018636636-2687e6c441a2?auto=format&fit=crop&q=70&w=1000"><span><em>CHARCOAL</em>チャコール（炭）</span></a>
+  <a class="cat" href="#"><img data-ph="800x600 スターターセット" src="https://images.unsplash.com/photo-1574751749605-0f1e41b6cf67?auto=format&fit=crop&q=70&w=1000"><span><em>STARTER SET</em>初心者セット</span></a>
+ </div>
+</div></section>
+
+<!-- ========== お知らせ ========== -->
+<section class="news" id="news"><div class="wrap newsbox reveal">
+ <div class="ph" style="aspect-ratio:4/3"><img data-ph="800x600 お知らせ用の写真" src="https://images.unsplash.com/photo-1685345729575-7f059204c0cd?auto=format&fit=crop&q=70&w=1000"></div>
+ <div>
+  <p class="sub">NEWS</p><h2>お知らせ</h2>
+  <!-- 日付・タイトルを差し替え -->
+  <ul>
+   <li><time>2026/09/30</time>【取り扱い開始】新型の電子加熱式シーシャが登場</li>
+   <li><time>2026/09/18</time>【新発売】人気ブランドの新作フレーバー9種類</li>
+   <li><time>2026/09/16</time>【入荷案内】人気ボウルが再入荷しました</li>
+  </ul>
+  <p style="margin-top:20px"><a class="more" href="#">一覧を見る</a></p>
+ </div>
+</div></section>
+
+<!-- ========== ブランド ========== -->
+<section id="brand"><div class="wrap">
+ <div class="head"><div><p class="sub">BRAND</p><h2>ブランドから探す</h2></div><a class="more" href="#">一覧を見る</a></div>
+ <div class="brands reveal">
+  <!-- ブランド名・ロゴ/写真を差し替え -->
+  <a class="brand" href="#"><div class="ph"><img data-ph="600x600 ブランドA" src="https://images.unsplash.com/photo-1683231094217-30130cc964b3?auto=format&fit=crop&q=70&w=700"></div>Brand A</a>
+  <a class="brand" href="#"><div class="ph"><img data-ph="600x600 ブランドB" src="https://images.unsplash.com/photo-1697018636636-2687e6c441a2?auto=format&fit=crop&q=70&w=700"></div>Brand B</a>
+  <a class="brand" href="#"><div class="ph"><img data-ph="600x600 ブランドC" src="https://images.unsplash.com/photo-1511302188604-d1d5ba206381?auto=format&fit=crop&q=70&w=700"></div>Brand C</a>
+  <a class="brand" href="#"><div class="ph"><img data-ph="600x600 ブランドD" src="https://images.unsplash.com/photo-1683231092058-2be52d7ee981?auto=format&fit=crop&q=70&w=700"></div>Brand D</a>
+ </div>
+</div></section>
+
+<!-- ========== 新着 ========== -->
+<section id="new" style="background:var(--mint)"><div class="wrap">
+ <div class="head"><div><p class="sub">NEW ARRIVALS</p><h2>新着アイテム</h2></div><a class="more" href="#">一覧を見る</a></div>
+ <div class="grid reveal">
+  <!-- 商品カード：画像・ブランド名・商品名・価格を差し替え -->
+  <a class="card" href="#"><div class="ph"><span class="tag">New</span><img data-ph="600x600 商品1" src="https://images.unsplash.com/photo-1660778207738-6d2047ef86b9?auto=format&fit=crop&q=70&w=700"></div><small>Brand A</small><h3>Mint Breeze（ミントブリーズ）</h3><b>¥4,400</b></a>
+  <a class="card" href="#"><div class="ph"><span class="tag">New</span><img data-ph="600x600 商品2" src="https://images.unsplash.com/photo-1685003227041-49af807c0113?auto=format&fit=crop&q=70&w=700"></div><small>Brand B</small><h3>Peach Soda（ピーチソーダ）</h3><b>¥4,400</b></a>
+  <a class="card" href="#"><div class="ph"><span class="tag">New</span><img data-ph="600x600 商品3" src="https://images.unsplash.com/photo-1660782644494-d368e4ca2b01?auto=format&fit=crop&q=70&w=700"></div><small>Brand C</small><h3>Clay Bowl（クレイボウル）</h3><b>¥7,200</b></a>
+  <a class="card" href="#"><div class="ph"><span class="tag">New</span><img data-ph="600x600 商品4" src="https://images.unsplash.com/photo-1662468527222-e4edb1cda938?auto=format&fit=crop&q=70&w=700"></div><small>Brand D</small><h3>Starter Set（スターターセット）</h3><b>¥82,500</b></a>
+ </div>
+</div></section>
+
+<!-- ========== ランキング ========== -->
+<section class="rank" id="rank"><div class="wrap">
+ <div class="head"><div><p class="sub">RANKING</p><h2>ベストセラー</h2></div><a class="more" href="#">一覧を見る</a></div>
+ <div class="grid reveal">
+  <a class="card" href="#"><div class="ph"><span class="tag">1位</span><img data-ph="600x600 1位" src="https://images.unsplash.com/photo-1574751749605-0f1e41b6cf67?auto=format&fit=crop&q=70&w=700"></div><small>Brand A</small><h3>Blue Heaven（ブルーヘブン）</h3><b>¥1,700</b></a>
+  <a class="card" href="#"><div class="ph"><span class="tag">2位</span><img data-ph="600x600 2位" src="https://images.unsplash.com/photo-1685345729575-7f059204c0cd?auto=format&fit=crop&q=70&w=700"></div><small>Brand B</small><h3>Cane Mint（ケインミント）</h3><b>¥3,900</b></a>
+  <a class="card" href="#"><div class="ph"><span class="tag">3位</span><img data-ph="600x600 3位" src="https://images.unsplash.com/photo-1574238752695-675b86d49267?auto=format&fit=crop&q=70&w=700"></div><small>Brand C</small><h3>Bergamot（ベルガモット）</h3><b>¥2,000</b></a>
+  <a class="card" href="#"><div class="ph"><span class="tag">4位</span><img data-ph="600x600 4位" src="https://images.unsplash.com/photo-1763637675322-a8ee73f79deb?auto=format&fit=crop&q=70&w=700"></div><small>Brand A</small><h3>Key Lime（キーライム）</h3><b>¥1,700</b></a>
+ </div>
+</div></section>
+
+<!-- ========== About ========== -->
+<section class="about" id="about" style="background:var(--mint)"><div class="wrap reveal">
+ <div>
+  <div class="ph"><img data-ph="800x600 店舗・スタッフの写真" src="https://images.unsplash.com/photo-1762553901129-588842051ea0?auto=format&fit=crop&q=70&w=1000"></div>
+  <div class="mini">
+   <div class="ph"><img data-ph="400x400 サブ写真1" src="https://images.unsplash.com/photo-1636190479047-1f9aca70f966?auto=format&fit=crop&q=70&w=700"></div>
+   <div class="ph"><img data-ph="400x400 サブ写真2" src="https://images.unsplash.com/photo-1574238919966-5cb3d9693a4b?auto=format&fit=crop&q=70&w=700"></div>
+   <div class="ph"><img data-ph="400x400 サブ写真3" src="https://images.unsplash.com/photo-1765293995398-bdb4d7c13e74?auto=format&fit=crop&q=70&w=700"></div>
+  </div>
+ </div>
+ <div>
+  <p class="sub">ABOUT US</p><h2>CLOUD NINEについて</h2>
+  <!-- 会社・店舗紹介文を差し替え -->
+  <p>当サイトは豊富な品揃えを誇るシーシャ専門ショップです。世界中のブランドから厳選したフレーバーや、高品質なパイプ・アクセサリーを取り揃えております。初めての方にも、こだわり派の方にも、心地よい時間をお届けします。</p>
+  <a href="#" class="btn">詳しく見る</a>
+ </div>
+</div></section>
+
+<!-- ========== ギャラリー ========== -->
+<section id="gallery" style="background:var(--mint)"><div class="wrap">
+ <div class="head"><div><p class="sub">GALLERY</p><h2>ギャラリー</h2></div></div>
+ <!-- 写真は7枚。1枚目が大きく表示されます。src を差し替えるだけでOK -->
+ <!-- 7枚。マウスを乗せた写真が広がります（スマホはタップ）。画像はsrc、文字は .cap 内を差し替え -->
+ <div class="gal reveal" id="gal">
+  <div class="ph on"><img data-ph="800x600 ギャラリー1：店内の様子" src="https://images.unsplash.com/photo-1762553901129-588842051ea0?auto=format&fit=crop&q=70&w=1200" alt="店内の様子">
+   <div class="cap"><small>01</small><b>店内の様子</b><span>ゆったり過ごせる、落ち着いた空間。</span></div></div><!-- 写真1 -->
+  <div class="ph"><img data-ph="800x600 ギャラリー2：シーシャ並び" src="https://images.unsplash.com/photo-1765293995398-bdb4d7c13e74?auto=format&fit=crop&q=70&w=700" alt="シーシャ並び">
+   <div class="cap"><small>02</small><b>シーシャ並び</b><span>豊富なラインナップをご用意。</span></div></div><!-- 写真2 -->
+  <div class="ph"><img data-ph="800x600 ギャラリー3：やわらかな煙" src="https://images.unsplash.com/photo-1635547821500-77542481940c?auto=format&fit=crop&q=70&w=700" alt="やわらかな煙">
+   <div class="cap"><small>03</small><b>やわらかな煙</b><span>なめらかな吸い心地をお楽しみください。</span></div></div><!-- 写真3 -->
+  <div class="ph"><img data-ph="800x600 ギャラリー4：やさしい灯り" src="https://images.unsplash.com/photo-1574238919966-5cb3d9693a4b?auto=format&fit=crop&q=70&w=700" alt="やさしい灯り">
+   <div class="cap"><small>04</small><b>やさしい灯り</b><span>雰囲気のある照明でリラックス。</span></div></div><!-- 写真4 -->
+  <div class="ph"><img data-ph="800x600 ギャラリー5：こだわりの一台" src="https://images.unsplash.com/photo-1574751749605-0f1e41b6cf67?auto=format&fit=crop&q=70&w=700" alt="こだわりの一台">
+   <div class="cap"><small>05</small><b>こだわりの一台</b><span>人気のパイプを取り揃えています。</span></div></div><!-- 写真5 -->
+  <div class="ph"><img data-ph="800x600 ギャラリー6：ラウンジ" src="https://images.unsplash.com/photo-1636190479047-1f9aca70f966?auto=format&fit=crop&q=70&w=1000" alt="ラウンジ">
+   <div class="cap"><small>06</small><b>ラウンジ</b><span>友人との時間にもぴったり。</span></div></div><!-- 写真6 -->
+  <div class="ph"><img data-ph="800x600 ギャラリー7：ホース＆パーツ" src="https://images.unsplash.com/photo-1763637675322-a8ee73f79deb?auto=format&fit=crop&q=70&w=1000" alt="ホース＆パーツ">
+   <div class="cap"><small>07</small><b>ホース＆パーツ</b><span>カスタムパーツも充実。</span></div></div><!-- 写真7 -->
+ </div>
+ <p class="hint">Hover / Tap on a photo</p>
+</div></section>
+
+<!-- ========== ブログ ========== -->
+<section id="blog"><div class="wrap">
+ <div class="head"><div><p class="sub">BLOG</p><h2>ブログ</h2></div><a class="more" href="#">一覧を見る</a></div>
+ <div class="blog reveal">
+  <a href="#"><div class="ph"><img data-ph="800x500 ブログ1" src="https://images.unsplash.com/photo-1636190479047-1f9aca70f966?auto=format&fit=crop&q=70&w=1000"></div><time>2026.09.17</time><h3>初めてのシーシャ、失敗しないための3つのコツ</h3></a>
+  <a href="#"><div class="ph"><img data-ph="800x500 ブログ2" src="https://images.unsplash.com/photo-1660782644494-d368e4ca2b01?auto=format&fit=crop&q=70&w=1000"></div><time>2026.09.14</time><h3>ボウルの選び方｜素材ごとの違いを解説</h3></a>
+  <a href="#"><div class="ph"><img data-ph="800x500 ブログ3" src="https://images.unsplash.com/photo-1635547821500-77542481940c?auto=format&fit=crop&q=70&w=1000"></div><time>2026.09.02</time><h3>おすすめのミント系フレーバー特集</h3></a>
+ </div>
+</div></section>
+
+<!-- ========== フォトバンド（スクロールでゆっくり動く） ========== -->
+<section class="band">
+ <img data-ph="1600x800 フォトバンド：雰囲気のある写真" src="https://images.unsplash.com/photo-1763637675322-a8ee73f79deb?auto=format&fit=crop&q=70&w=1600" alt="フォトバンド：雰囲気のある写真">
+ <div class="in wrap">
+  <p class="sub">RELAX TIME</p>
+  <h2>煙の向こうに、新しい時間。</h2><!-- キャッチコピー -->
+  <p style="margin:6px 0 22px;color:#cfdcd4">ゆったりと流れる時間を、あなたの部屋にも。</p>
+  <a href="#new" class="btn">商品を見る</a>
+ </div>
+</section>
+
+<!-- ========== 卸売 ========== -->
+<section style="padding-top:0" id="b2b"><div class="wrap">
+ <div class="b2b reveal">
+  <div class="in">
+   <p class="sub" style="color:var(--green)">WHOLESALE</p><h2>店舗様・業者様向け 卸売のご案内</h2>
+   <p>シーシャ店舗様向けの卸売販売を行っております。専用アカウントをご登録いただくと、特別価格での仕入れが可能です。</p>
+   <a href="#" class="btn">卸売会員登録申請フォーム</a>
+  </div>
+  <img data-ph="800x600 卸売・店舗の写真" src="https://images.unsplash.com/photo-1765293995398-bdb4d7c13e74?auto=format&fit=crop&q=70&w=1000" style="min-height:260px">
+ </div>
+</div></section>
+
+<footer><div class="wrap">
+ <div class="fgrid">
+  <div><p class="logo">CLOUD NINE</p><p style="color:var(--gray);margin-top:10px">日本最大級を目指す、シーシャ専門ショップ</p></div>
+  <ul><li><b>商品カテゴリ</b></li><li>フレーバー</li><li>パイプ</li><li>ボウル</li><li>アクセサリー</li><li>炭</li></ul>
+  <ul><li><b>ストア情報</b></li><li>ご利用ガイド</li><li>お問い合わせ</li><li>プライバシーポリシー</li><li>特定商取引法に基づく表記</li></ul>
+ </div>
+ <p class="copy">© 2026 CLOUD NINE SHISHA｜20歳未満の方の喫煙は法律で禁止されています。</p>
+</div></footer>
+
+<script>
+/* ===== 画像プレースホルダー =====
+   src の無い <img data-ph="幅x高さ ラベル"> に、仮画像を自動で入れます。
+   本番画像にするときは data-ph を消して src="images/xxx.jpg" alt="説明" を書くだけ。 */
+document.querySelectorAll('img[data-ph]').forEach(function(im){
+  function fill(){im.onerror=null;
+  var m=im.dataset.ph.match(/(\d+)x(\d+)\s*(.*)/)||[0,800,600,''];
+  var w=m[1],h=m[2],t=m[3]||'PHOTO';
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+h+'"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c2e25"/><stop offset="1" stop-color="#0f1713"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><circle cx="'+w*0.7+'" cy="'+h*0.3+'" r="'+h*0.22+'" fill="#3ddc84" opacity=".07"/><text x="50%" y="50%" text-anchor="middle" font-family="sans-serif" font-size="'+Math.max(w,h)/20+'" fill="#3ddc84" opacity=".75">'+t+'</text><text x="50%" y="'+(h*0.58)+'" text-anchor="middle" font-family="sans-serif" font-size="'+Math.max(w,h)/34+'" fill="#3ddc84" opacity=".5">'+w+' x '+h+'</text></svg>';
+  im.src='data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+  im.alt=t;}
+  if(im.getAttribute('src')){im.onerror=fill;im.alt=im.dataset.ph.replace(/^\d+x\d+\s*/,'')}else fill(); /* 画像が読み込めない時だけ仮画像を表示 */
+});
+
+/* ===== ファーストビュー：スライダー ===== */
+(function(){
+  var slides=document.querySelectorAll('.slide'),dots=document.getElementById('dots'),i=0,timer;
+  slides.forEach(function(_,n){var b=document.createElement('button');b.onclick=function(){go(n)};dots.appendChild(b)});
+  function go(n){
+    i=(n+slides.length)%slides.length;
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i)});
+    dots.querySelectorAll('button').forEach(function(b,k){b.classList.remove('on');void b.offsetWidth;b.classList.toggle('on',k===i)});
+    clearTimeout(timer);timer=setTimeout(function(){go(i+1)},5500); /* 6000 = 切替時間(ms) */
+  }
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('next').onclick=function(){go(i+1)};
+  go(0);
+
+  /* マウスに合わせて写真がふわっと動く */
+  var hero=document.querySelector('.hero');
+  hero.addEventListener('mousemove',function(e){
+    var x=(e.clientX/innerWidth-.5)*16,y=(e.clientY/innerHeight-.5)*16;
+    document.querySelectorAll('.pic img').forEach(function(im){im.style.transform='scale(1.08) translate('+x+'px,'+y+'px)'});
+  });
+})();
+
+/* ===== ファーストビュー：ただよう煙のアニメーション ===== */
+(function(){
+  var c=document.getElementById('smoke'),x=c.getContext('2d'),P=[],W,H;
+  function size(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  size();addEventListener('resize',size);
+  function make(init){return{x:Math.random()*W,y:init?Math.random()*H:H+80,r:40+Math.random()*90,v:.25+Math.random()*.5,d:Math.random()*6,a:.05+Math.random()*.12}}
+  for(var k=0;k<22;k++)P.push(make(true));
+  (function draw(){
+    x.clearRect(0,0,W,H);
+    P.forEach(function(p,n){
+      p.y-=p.v;p.d+=.01;p.x+=Math.sin(p.d)*.6;p.r+=.05;
+      var g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      g.addColorStop(0,'rgba(120,255,190,'+p.a*.9+')');g.addColorStop(1,'rgba(120,255,190,0)');
+      x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
+      if(p.y<-p.r)P[n]=make(false);
+    });
+    requestAnimationFrame(draw);
+  })();
+})();
+
+/* ===== ギャラリー：マウスを乗せた写真が広がる ===== */
+(function(){
+  var ps=document.querySelectorAll('#gal .ph');
+  ps.forEach(function(p){
+    function on(){ps.forEach(function(q){q.classList.remove('on')});p.classList.add('on')}
+    p.addEventListener('mouseenter',on);p.addEventListener('click',on);
+  });
+})();
+
+/* ===== フォトバンドのゆっくり視差 ===== */
+addEventListener('scroll',function(){document.querySelectorAll('.band>img').forEach(function(im){var r=im.parentNode.getBoundingClientRect();im.style.transform='translateY('+(r.top*-.12)+'px)'})},{passive:true});
+
+/* ===== スクロールでふわっと表示 ===== */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){document.getElementById('nav').classList.remove('open')}});
+</script>
+</body>
+</html>
