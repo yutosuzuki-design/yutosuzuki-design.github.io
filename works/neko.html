@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>猫の勇者と魔王の国｜鈴木優斗 ポートフォリオ</title>
+<meta name="description" content="読み上げ機能と章ごとのBGMを加えた物語サイトと、物語に連動した性格診断アプリ。授業課題のペア制作です。">
+<link rel="canonical" href="https://yutosuzuki-design.github.io/works/neko.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="猫の勇者と魔王の国｜鈴木優斗 ポートフォリオ">
+<meta property="og:description" content="読み上げ機能と章ごとのBGMを加えた物語サイトと、物語に連動した性格診断アプリ。授業課題のペア制作です。">
+<meta property="og:image" content="https://yutosuzuki-design.github.io/assets/img/works/neko.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>:root { --case-bg: #211D4A; --case-fg: #F3EEDD; }</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="site-header site-header--case">
+  <div class="container site-header__inner">
+    <a class="site-header__name" href="../">鈴木優斗</a>
+    <nav aria-label="サイト内リンク">
+      <ul class="site-nav">
+        <li><a href="../#works">作品</a></li>
+        <li><a href="../#about">わたしについて</a></li>
+        <li><a href="../#process">進め方</a></li>
+        <li><a href="../#skills">できること</a></li>
+        <li><a class="site-nav__contact" href="../#contact">連絡先</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 作品の概要（背景はこの作品の色） -->
+  <section class="case-hero" aria-labelledby="case-title">
+    <div class="container">
+      <p class="breadcrumb"><a href="../#works">作品</a><span>/</span>猫の勇者と魔王の国</p>
+      <div class="case-hero__grid">
+        <div>
+          <p class="case-hero__type">物語サイト・性格診断アプリ／授業課題・ペア制作</p>
+          <h1 class="case-hero__title" id="case-title">猫の勇者と魔王の国</h1>
+          <p class="case-hero__lead">漢字の多い物語を子どもも楽しめるように、読み上げ機能と、章ごとに変わるBGMを加えた物語サイトです。読み終えたあとは、物語のキャラクターと連動した性格診断アプリへ進めます。</p>
+        </div>
+        <dl class="case-facts">
+          <div><dt>制作</dt><dd>授業課題（2人のペア制作）</dd></div>
+          <div><dt>期間</dt><dd>約10日</dd></div>
+          <div><dt>担当</dt><dd>デザインカンプ（Figma）、読み上げ機能・BGM機能の追加、診断アプリの構成と、物語とアプリを行き来する導線／実装はAIと協働し、VS Codeで手作業の修正</dd></div>
+          <div><dt>ツール</dt><dd>Figma、Photoshop、Claude、Gemini、ChatGPT、VS Code</dd></div>
+          <div><dt>素材</dt><dd>挿絵・キャラクターはAIで生成。BGMはブラウザの音声機能で生成</dd></div>
+        </dl>
+      </div>
+      <p class="case-hero__links">
+        <a class="button" href="../demo/neko/nekotomaounokuni.html" target="_blank" rel="noopener">物語サイトを開く<span class="visually-hidden">（新しいタブで開きます）</span></a>
+        <a class="text-link" href="../demo/neko/sinndannapuri.html" target="_blank" rel="noopener">診断アプリを開く<span class="visually-hidden">（新しいタブで開きます）</span></a>
+      </p>
+    </div>
+  </section>
+
+  <div class="container">
+    <figure class="case-cover">
+      <img src="../assets/img/works/neko.jpg" alt="猫の勇者と魔王の国のPC画面とスマホ画面" width="1600" height="1000">
+    </figure>
+
+    <section class="case-sec" aria-labelledby="s1">
+      <h2 class="case-sec__title" id="s1">目的とターゲット</h2>
+      <div class="case-sec__body">
+        <p><b>ターゲット：</b>大人向けの童話です。読み上げ機能があるので、漢字を読めない子どもも一緒に楽しめます。</p>
+        <p><b>コンセプト：</b>子どもから大人まで楽しめる。</p>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s2">
+      <h2 class="case-sec__title" id="s2">デザインカンプ</h2>
+      <div class="case-sec__body">
+        <p>物語ページのデザインはFigmaで作りました。下の枠の中をスクロールすると、カンプ全体を見られます。</p>
+        <div class="scroll-frame" tabindex="0" role="region" aria-label="物語ページのFigmaデザインカンプ（スクロールできます）">
+          <img src="../assets/img/works/neko/figma-comp.jpg" alt="物語ページのFigmaデザインカンプ。序章からエピローグ、登場人物一覧まで" width="543" height="8000" loading="lazy">
+        </div>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s3">
+      <h2 class="case-sec__title" id="s3">配色は「平和 → 闇 → 光」</h2>
+      <div class="case-sec__body">
+        <p>挿絵の王国の旗や勇者の服、王冠、魔王城から色を取り出し、色ごとに役割を決めた設計表を作りました。</p>
+        <div class="swatches">
+          <p class="swatch" style="--c:#0F1630"><b>夜空の紺</b>#0F1630 ベースの背景</p>
+          <p class="swatch" style="--c:#2F55B5"><b>ロイヤルブルー</b>#2F55B5 ボタン・リンク</p>
+          <p class="swatch" style="--c:#D9B45A"><b>ゴールド</b>#D9B45A 見出し・線に少量</p>
+          <p class="swatch" style="--c:#B8262E"><b>マントの赤</b>#B8262E 差し色</p>
+          <p class="swatch" style="--c:#6B2FB3"><b>魔王の紫</b>#6B2FB3 背景・枠線のみ</p>
+          <p class="swatch" style="--c:#F3E9D2"><b>羊皮紙のアイボリー</b>#F3E9D2 明るい背景</p>
+        </div>
+        <p>さらに、物語の流れを背景色で表すように、章ごとの背景色を決めました。</p>
+        <div class="chapters" role="img" aria-label="章ごとの背景色。序章から第三章は紺、第四章はアイボリー、第五・六章は黒紫、最終章は黒紫から金白、エピローグは紺からオレンジ">
+          <span style="--c:#0F1630">序章</span>
+          <span style="--c:#0F1630">1章</span>
+          <span style="--c:linear-gradient(#0F1630,#6B2FB3)">2章</span>
+          <span style="--c:#0F1630">3章</span>
+          <span style="--c:#F3E9D2;--t:#1B2550">4章</span>
+          <span style="--c:#1A0B2E">5章</span>
+          <span style="--c:#1A0B2E">6章</span>
+          <span style="--c:linear-gradient(#1A0B2E,#F3E9D2)">最終章</span>
+          <span style="--c:linear-gradient(#0F1630,#F2A65A)">エピローグ</span>
+        </div>
+        <ul class="dots">
+          <li>紫は暗い背景では読みにくいので、背景・光・枠線だけに使い、文字はアイボリーかゴールドにする</li>
+          <li>ゴールドは見出し・数字・線など少量に使う。面で多く使うと安っぽく見える</li>
+          <li>挿絵に彩度の高い紫やオレンジが多いので、画面側の色は紺・金・アイボリーに絞る</li>
+        </ul>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s4">
+      <h2 class="case-sec__title" id="s4">読み上げ機能の工夫</h2>
+      <div class="case-sec__body">
+        <p>漢字が多く、子どもには読めない部分があるため、ブラウザの読み上げ機能を使って物語を音声で聞けるようにしました。</p>
+        <ul class="dots">
+          <li><b>挿絵を見失わない：</b>読み上げに合わせて文字を追うと、挿絵が画面の外へ流れてしまいます。章が終わるまでは、挿絵を画面の上に表示し直すようにしました</li>
+          <li>読んでいる段落を光らせ、自動でスクロールする</li>
+          <li>読み上げ中はBGMの音量を下げる</li>
+          <li>段落をタップすると、そこから読み直せる</li>
+          <li>「古文書」「賢王」など、読み間違えやすい言葉の読み方を補正する</li>
+          <li>声・速さ・高さの設定を保存し、次に開いたときも同じ設定で聞ける</li>
+        </ul>
+        <div class="shots" style="--cols:2">
+          <figure>
+            <img src="../assets/img/works/neko/chapter4-pc.jpg" alt="第四章。アイボリーの背景に挿絵と本文" loading="lazy">
+            <figcaption>第四章は設計どおり明るいアイボリー</figcaption>
+          </figure>
+          <figure>
+            <img src="../assets/img/works/neko/chapter2-pc.jpg" alt="第二章の挿絵と本文" loading="lazy">
+            <figcaption>下部に読み上げの操作パネル</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s5">
+      <h2 class="case-sec__title" id="s5">章ごとに変わるBGM</h2>
+      <div class="case-sec__body">
+        <p>場面に合わせて、章ごとにBGMが切り替わります。音源ファイルは使わず、ブラウザの音声機能（Web Audio）でその場で音を鳴らしているため、ページが重くなりません。</p>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s6">
+      <h2 class="case-sec__title" id="s6">物語と連動した診断アプリ</h2>
+      <div class="case-sec__body">
+        <p>VIVANT? の制作と同じく、サイトとアプリに関連性を持たせたいと考えました。どんなアプリにするか悩んだ末、8つの質問に答えると、物語に登場する7人のキャラクターのうち、自分がどのタイプかが分かる診断にしました。</p>
+        <ul class="dots">
+          <li>物語ページのキャラクター紹介から診断へ、診断の結果から物語へ、ボタンで行き来できる</li>
+          <li>アプリの最初の画面では、物語の挿絵が数秒ごとに切り替わる</li>
+          <li>キャラクター図鑑と、診断の記録を見られる</li>
+        </ul>
+        <div class="shots shots--phone" style="--cols:2">
+          <figure>
+            <img src="../assets/img/works/neko/quiz-sp.jpg" alt="診断アプリの質問画面" loading="lazy">
+            <figcaption>質問画面（全8問）</figcaption>
+          </figure>
+          <figure>
+            <img src="../assets/img/works/neko/result-sp.jpg" alt="診断アプリの結果画面。レオンタイプ" loading="lazy">
+            <figcaption>結果画面</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s7">
+      <h2 class="case-sec__title" id="s7">掲載前の見直し</h2>
+      <div class="case-sec__body">
+        <p>ポートフォリオに載せる前に、AIと一緒にコードと内容を点検し、次の点を直しました。</p>
+        <ul class="dots">
+          <li><b>出ないタイプがあった：</b>選択肢の中にヴァルガントが1回しかなく、何を選んでもヴァルガントタイプにならない作りでした。選択肢を組み直し、7タイプすべてが出るようにしました</li>
+          <li><b>BGMの名前：</b>既存の映画の曲名を使った表示をやめ、「魔王の玉座」など場面を表す名前に変えました</li>
+          <li><b>本文の抜け：</b>HTMLにする途中で抜けていた文章を、原稿どおりに戻しました</li>
+          <li><b>第四章の背景：</b>設計表では明るいアイボリーにしていた第四章が、実装では紺のままでした。設計どおりアイボリーに直し、文字色も読みやすい濃い色に切り替えました</li>
+        </ul>
+        <table class="table">
+          <caption class="visually-hidden">全65,536通りの答え方で計算した、各タイプが出る割合</caption>
+          <thead><tr><th>タイプ</th><th class="num">直す前</th><th class="num">直した後</th></tr></thead>
+          <tbody>
+            <tr><td>レオン</td><td class="num">12.4%</td><td class="num">20.5%</td></tr>
+            <tr><td>ゴウエン</td><td class="num">28.2%</td><td class="num">12.5%</td></tr>
+            <tr><td>ミルフィ</td><td class="num">16.3%</td><td class="num">18.5%</td></tr>
+            <tr><td>アルディオン</td><td class="num">25.2%</td><td class="num">13.9%</td></tr>
+            <tr><td>セラフィム</td><td class="num">13.4%</td><td class="num">14.0%</td></tr>
+            <tr><td>ゲロニクス</td><td class="num">4.5%</td><td class="num">8.1%</td></tr>
+            <tr><td>ヴァルガント</td><td class="num">0.0%</td><td class="num">12.5%</td></tr>
+          </tbody>
+        </table>
+        <p>全65,536通りの答え方で、各タイプが出る割合を計算して確かめています。</p>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s8">
+      <h2 class="case-sec__title" id="s8">苦労したこと・学んだこと</h2>
+      <div class="case-sec__body">
+        <p>こだわった読み上げ機能やBGM、挿絵の再表示が、そのまま大変だったところです。ペアでの制作だったので、作りたいものについて考えをすり合わせることの大切さを学びました。</p>
+        <p>掲載前の見直しで、第四章の背景が設計表と違っていたことに気づきました。完成前に、デザインと実装を見比べて確認する大切さも学びました。</p>
+      </div>
+    </section>
+
+    <nav class="case-nav" aria-label="前後の作品">
+      <a href="lumera.html"><small>前の作品</small><b>Lumēra</b></a>
+      <a class="case-nav__next" href="vivant.html"><small>次の作品</small><b>VIVANT? 採用情報</b></a>
+    </nav>
+    <p class="case-back"><a class="text-link" href="../#works">作品一覧に戻る</a></p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <ul class="site-footer__nav">
+      <li><a href="../#works">作品</a></li>
+      <li><a href="../#about">わたしについて</a></li>
+      <li><a href="../#process">進め方</a></li>
+      <li><a href="../#skills">できること</a></li>
+      <li><a href="../#contact">連絡先</a></li>
+    </ul>
+    <p class="site-footer__note">作品に登場する商品・企業・組織は、すべて架空のものです。</p>
+    <p class="site-footer__copy"><small>&copy; 2026 Yuto Suzuki</small></p>
+  </div>
+</footer>
+</body>
+</html>
