@@ -55,10 +55,15 @@ button { font: inherit; color: inherit; }
 h1, h2, h3, h4,
 .index__title, .site-header__name, .about__name, .skill__name, .step::before, .case-nav b { font-family: var(--font-head); }
 h1, h2, h3, h4 { line-height: 1.4; font-weight: 700; font-feature-settings: "palt"; }
+/* 日本語を文節の切れ目で折り返す（対応していないブラウザでは通常の折り返し） */
+h1, h2, h3, h4, .hero__lead, .section__lead, .case-hero__lead, .index__type { word-break: auto-phrase; }
 ::selection { background: var(--accent); color: var(--on-accent); }
 
 /* キーボード操作のときだけ、太い枠でフォーカスを示す */
-:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 3px; }
+/* 背景が作品の色に変わる場所では、枠の色を文字色に合わせる（暗い背景でも見えるように） */
+.hero, .site-header { --focus: var(--theme-fg, var(--ink)); }
+.case-hero, .site-header--case { --focus: var(--case-fg); }
 
 /* ---------- 3. 共通パーツ ---------- */
 .container { width: 100%; max-width: calc(var(--container) + var(--gutter) * 2); margin-inline: auto; padding-inline: var(--gutter); }
