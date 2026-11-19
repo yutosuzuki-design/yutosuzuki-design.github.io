@@ -286,6 +286,13 @@ h1, h2, h3, h4, .hero__lead, .section__lead, .case-hero__lead, .index__type { wo
 /* Figmaカンプ：縦に長いので、枠の中でスクロールして見る */
 .scroll-frame { height: 560px; overflow-y: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
 .scroll-frame img { width: 100%; max-width: 543px; margin-inline: auto; }
+.scroll-frame--wide img { max-width: none; }            /* PCのカンプは枠の幅いっぱいに */
+.scroll-frame--phone { max-width: 390px; }            /* スマホのカンプはスマホくらいの幅で */
+.scroll-frame--phone img { max-width: none; }
+.scroll-frame--wire { height: 440px; }                  /* ワイヤーフレームは短めの枠で */
+.scroll-frame--wire img { max-width: 340px; }       /* 2章分ほどが一度に見える大きさ */
+.comp { margin-block: 32px; }
+.comp figcaption { margin-top: 10px; font-size: .8125rem; color: var(--ink-2); }
 
 /* 色見本 */
 .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-block: 24px; }

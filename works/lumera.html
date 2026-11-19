@@ -51,9 +51,9 @@
         <dl class="case-facts">
           <div><dt>制作</dt><dd>自主制作（1人）</dd></div>
           <div><dt>期間</dt><dd>約3週間（実装まで）</dd></div>
-          <div><dt>担当</dt><dd>企画、デザインカンプ（Figma）、画像の調整（Photoshop）／実装はAI（Claude）を活用　VS Codeで修正</dd></div>
-          <div><dt>ツール</dt><dd>Figma、Photoshop、Claude、Gemini、VS Code</dd></div>
-          <div><dt>素材</dt><dd>写真、ロゴはAIで生成し、Photoshopで調整</dd></div>
+          <div><dt>担当</dt><dd>企画、デザインカンプ（Figma）、画像の調整（Photoshop）／実装はAI（Claude）と協働</dd></div>
+          <div><dt>ツール</dt><dd>Figma、Photoshop、Claude、Gemini</dd></div>
+          <div><dt>素材</dt><dd>写真はAIで生成し、Photoshopで調整</dd></div>
         </dl>
       </div>
       <p class="case-hero__links">
@@ -82,7 +82,33 @@
       </div>
     </section>
     <section class="case-sec" aria-labelledby="s3">
-      <h2 class="case-sec__title" id="s3">デザインのポイント</h2>
+      <h2 class="case-sec__title" id="s3">デザインカンプ</h2>
+      <div class="case-sec__body">
+        <p>LPのデザインはFigmaで作りました。上から、悩みへの共感 → 選ばれる理由 → 3つの強み → 使い続けた先のイメージ → お客様の声 → 初回特典 → よくある質問 → 最後の申し込み、の順に並べています。</p>
+        <p>下の枠の中をスクロールすると、PC版とスマホ版のカンプ全体を見られます。</p>
+        <figure class="comp">
+          <div class="scroll-frame scroll-frame--wide" tabindex="0" role="region" aria-label="LumēraのPC版LPのFigmaデザインカンプ（スクロールできます）">
+            <img src="../assets/img/works/lumera/figma-comp-pc.jpg" alt="Lumēra セラムのPC版LPのデザインカンプ。ファーストビューから、悩み、選ばれる理由、3つの強み、お客様の声、初回特典、よくある質問、最後の申し込みまで" width="1400" height="6859" loading="lazy">
+          </div>
+          <figcaption>PC版LPのデザインカンプ（Figma）</figcaption>
+        </figure>
+        <figure class="comp">
+          <div class="scroll-frame scroll-frame--phone" tabindex="0" role="region" aria-label="Lumēraのスマホ版LPのFigmaデザインカンプ（スクロールできます）">
+            <picture>
+              <source srcset="../assets/img/works/lumera/figma-comp-sp.webp" type="image/webp">
+              <img src="../assets/img/works/lumera/figma-comp-sp.jpg" alt="Lumēra セラムのスマホ版LPのデザインカンプ。PC版と同じ順番で、写真を横幅いっぱいに縦に並べ、よくある質問は開閉式" width="804" height="16204" loading="lazy">
+            </picture>
+          </div>
+          <figcaption>スマホ版LPのデザインカンプ（Figma・幅402px）</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../assets/img/works/lumera/figma-overview.jpg" alt="Figmaの作業画面。PC版とスマホ版のLP、購入フォーム3画面ずつ、お問い合わせ3画面ずつ、カラー一覧が並んでいる" loading="lazy">
+          <figcaption>Figmaの作業画面。LP・購入フォーム・お問い合わせを、PC・スマホあわせて14画面。購入フォームとお問い合わせは、通常・エラーなどの状態ごとに作っています</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="case-sec" aria-labelledby="s4">
+      <h2 class="case-sec__title" id="s4">デザインのポイント</h2>
       <div class="case-sec__body">
         <h3>色は「ベージュ × ゴールド」。小さい文字用に暗いゴールドを追加</h3>
         <p>ゴールド（#AC8545）は、ボタンなどの面では上品に見えますが、小さい文字に使うと背景との差が足りず読みにくくなります。そこで小さい文字用に暗いゴールド（#8A6A2F）を加えました。また、ほとんど同じゴールドが2色あったので1色にまとめ、色ごとの役割を整理しました。</p>
@@ -100,6 +126,7 @@
         <p>ロゴやボトルは「Lumēra」、本文は「ルミナスリッチ セラム」と、商品名の表記が分かれていました。見る人が別の商品だと迷わないよう、「Lumēra セラム」に一本化しました。</p>
         <h3>定期コースであることを、申し込みの近くで伝える</h3>
         <p>定期と単品でフォームを分けず、1つのフォームにまとめました。「いつでも休止・解約OK」はゴールドのバッジで目立たせ、スマホでボタンの文言を短くしたときも、ボタンの近くに定期コースの注記を残しています。</p>
+        <p>また、初回特別価格は「おひとり様1個限り」にして、購入フォームでは数量を選べないようにしました。最初は1〜10個を選べる作りでしたが、見直したときに、割引価格でまとめ買いしてすぐ解約される恐れがあると気づき、LPの注記もあわせて直しています。</p>
         <h3>うまくいかなかったときの画面まで作る</h3>
         <p>入力ミスがあったときは、上部に件数を出し、各項目の下に理由を表示します。カードが使えなかったときの決済エラーと、お問い合わせで同意する前は送信ボタンを押せない状態も、PC・スマホそれぞれで設計しました。</p>
         <figure class="shot">
@@ -120,15 +147,15 @@
         <p>本文14px・見出し22px・左右の余白24pxを基準にしました。見せたい写真は横幅いっぱいに縦に並べ、FAQは開閉式にして長さを抑えています。</p>
       </div>
     </section>
-    <section class="case-sec" aria-labelledby="s4">
-      <h2 class="case-sec__title" id="s4">苦労したこと・学んだこと</h2>
+    <section class="case-sec" aria-labelledby="s5">
+      <h2 class="case-sec__title" id="s5">苦労したこと・学んだこと</h2>
       <div class="case-sec__body">
         <p>LP本体とフォーム、エラー画面の14枚のカンプを、すべてAuto Layoutで作るのがとても大変でした。</p>
         <p>最初に作ったPC版のLPはAuto Layoutを使わずに組んでいたため、実装を考えて、複製してAuto Layoutで作り直しました。デザインの段階から実装を意識して組んでおくと、あとの作業が大きく変わることを学びました。</p>
       </div>
     </section>
-    <section class="case-sec" aria-labelledby="s5">
-      <h2 class="case-sec__title" id="s5">AIの使い方</h2>
+    <section class="case-sec" aria-labelledby="s6">
+      <h2 class="case-sec__title" id="s6">AIの使い方</h2>
       <div class="case-sec__body">
         <p>デザインカンプはFigmaで自分で作り、実装はClaudeと協働しました。実装された画面とカンプを見比べ、PC版とスマホ版で文言や数字の表記がずれていた箇所は、デザイン側で統一してから直しています。</p>
       </div>

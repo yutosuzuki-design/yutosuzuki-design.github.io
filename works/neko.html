@@ -51,9 +51,9 @@
         <dl class="case-facts">
           <div><dt>制作</dt><dd>授業課題（2人のペア制作）</dd></div>
           <div><dt>期間</dt><dd>約10日</dd></div>
-          <div><dt>担当</dt><dd>デザインカンプ（Figma）、読み上げ機能・BGM機能の追加、診断アプリの構成と、物語とアプリを行き来する導線／実装はAIと協働し、押絵、BGMはVS Codeで追加</dd></div>
+          <div><dt>担当</dt><dd>デザインカンプ（Figma）、読み上げ機能・BGM機能の追加、診断アプリの構成と、物語とアプリを行き来する導線／実装はAIと協働し、VS Codeで手作業の修正</dd></div>
           <div><dt>ツール</dt><dd>Figma、Photoshop、Claude、Gemini、ChatGPT、VS Code</dd></div>
-          <div><dt>素材</dt><dd>挿絵・キャラクターはAI（Gemini）で生成。BGM、自動読み上げ機能はAI（Claude）で生成</dd></div>
+          <div><dt>素材</dt><dd>挿絵・キャラクターはAIで生成。BGMはブラウザの音声機能で生成</dd></div>
         </dl>
       </div>
       <p class="case-hero__links">
@@ -78,9 +78,35 @@
     <section class="case-sec" aria-labelledby="s2">
       <h2 class="case-sec__title" id="s2">デザインカンプ</h2>
       <div class="case-sec__body">
-        <p>物語ページのデザインはFigmaで作りました。下の枠の中をスクロールすると、カンプ全体を見られます。</p>
-        <div class="scroll-frame" tabindex="0" role="region" aria-label="物語ページのFigmaデザインカンプ（スクロールできます）">
-          <img src="../assets/img/works/neko/figma-comp.jpg" alt="物語ページのFigmaデザインカンプ。序章からエピローグ、登場人物一覧まで" width="543" height="8000" loading="lazy">
+        <p>物語ページは、ワイヤーフレームで画像と文章の配置を決めてから、Figmaでデザインカンプを作りました（どちらも自分で担当）。長い物語を読んでいて飽きないように、章ごとに画像を上・左・右と置く位置を変えて、ページに動きを出しています。最後の登場人物一覧は、画像と紹介文を2列に並べています。</p>
+        <p>下の枠の中をスクロールすると、それぞれ全体を見られます。</p>
+        <figure class="comp">
+          <div class="scroll-frame scroll-frame--wire" tabindex="0" role="region" aria-label="物語ページのワイヤーフレーム（スクロールできます）">
+            <img src="../assets/img/works/neko/wireframe.jpg" alt="物語ページのワイヤーフレーム。章ごとに画像と文章の配置を、上下・左右に入れ替えている。最後は登場人物一覧で、画像と文章を2列に並べている" width="966" height="8000" loading="lazy">
+          </div>
+          <figcaption>ワイヤーフレーム：画像と文章の配置</figcaption>
+        </figure>
+        <figure class="comp">
+          <div class="scroll-frame" tabindex="0" role="region" aria-label="物語ページのFigmaデザインカンプ（スクロールできます）">
+            <picture>
+              <source srcset="../assets/img/works/neko/figma-comp.webp" type="image/webp">
+              <img src="../assets/img/works/neko/figma-comp.jpg" alt="物語ページのFigmaデザインカンプ。序章からエピローグ、登場人物一覧まで" width="816" height="12023" loading="lazy">
+            </picture>
+          </div>
+          <figcaption>デザインカンプ（Figma）：序章からエピローグ、登場人物一覧まで</figcaption>
+        </figure>
+        <h3>コーディングしてみて、文章の組み方を変えた</h3>
+        <p>カンプでは、文章が画像の横から下へ回り込む形にしていました。ところが実際にコーディングしてみると、1つの段落の途中で行の長さが変わり、読みにくくなりました。</p>
+        <p>そこで、画像と文章を左右の2列に分け、文章は最後まで同じ幅で読めるようにしました。章ごとに画像の位置を入れ替えて動きを出す工夫は、そのまま残しています。</p>
+        <div class="shots" style="--cols:2">
+          <figure>
+            <img src="../assets/img/works/neko/compare-comp.jpg" alt="デザインカンプの第二章。文章が画像の横から下へ回り込み、途中で行の長さが変わっている" loading="lazy">
+            <figcaption>カンプ：文章が画像の横から下へ回り込む</figcaption>
+          </figure>
+          <figure>
+            <img src="../assets/img/works/neko/compare-impl.jpg" alt="実装した第二章。左に文章、右に画像の2列で、文章は最後まで同じ幅" loading="lazy">
+            <figcaption>実装：画像と文章を2列に分けた</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -97,16 +123,16 @@
           <p class="swatch" style="--c:#F3E9D2"><b>羊皮紙のアイボリー</b>#F3E9D2 明るい背景</p>
         </div>
         <p>さらに、物語の流れを背景色で表すように、章ごとの背景色を決めました。</p>
-        <div class="chapters" role="img" aria-label="章ごとの背景色。序章から第三章は紺、第四章はアイボリー、第五・六章は黒紫、最終章は黒紫から金白、エピローグは紺からオレンジ">
+        <div class="chapters" role="img" aria-label="章ごとの背景色。序章から第三章は紺（第二章は上に紫の光）、第四章はアイボリー、第五・六章は黒紫、最終章は黒紫から藍、エピローグは藍から紺紫">
           <span style="--c:#0F1630">序章</span>
           <span style="--c:#0F1630">1章</span>
-          <span style="--c:linear-gradient(#0F1630,#6B2FB3)">2章</span>
+          <span style="--c:linear-gradient(#211B4A,#0F1630)">2章</span>
           <span style="--c:#0F1630">3章</span>
           <span style="--c:#F3E9D2;--t:#1B2550">4章</span>
           <span style="--c:#1A0B2E">5章</span>
           <span style="--c:#1A0B2E">6章</span>
-          <span style="--c:linear-gradient(#1A0B2E,#F3E9D2)">最終章</span>
-          <span style="--c:linear-gradient(#0F1630,#F2A65A)">エピローグ</span>
+          <span style="--c:linear-gradient(#1A0B2E,#1B2550)">最終章</span>
+          <span style="--c:linear-gradient(#1B2550,#2A2A4A)">エピローグ</span>
         </div>
         <ul class="dots">
           <li>紫は暗い背景では読みにくいので、背景・光・枠線だけに使い、文字はアイボリーかゴールドにする</li>
@@ -143,6 +169,7 @@
       <h2 class="case-sec__title" id="s5">章ごとに変わるBGM</h2>
       <div class="case-sec__body">
         <p>場面に合わせて、章ごとにBGMが切り替わります。音源ファイルは使わず、ブラウザの音声機能（Web Audio）でその場で音を鳴らしているため、ページが重くなりません。</p>
+        <p>主役は物語なので、BGMは読む邪魔にならない、かすかに聞こえるくらいの音量にしています。読み上げ中は、さらに小さくなります。</p>
       </div>
     </section>
     <section class="case-sec" aria-labelledby="s6">
@@ -175,6 +202,7 @@
           <li><b>BGMの名前：</b>既存の映画の曲名を使った表示をやめ、「魔王の玉座」など場面を表す名前に変えました</li>
           <li><b>本文の抜け：</b>HTMLにする途中で抜けていた文章を、原稿どおりに戻しました</li>
           <li><b>第四章の背景：</b>設計表では明るいアイボリーにしていた第四章が、実装では紺のままでした。設計どおりアイボリーに直し、文字色も読みやすい濃い色に切り替えました</li>
+          <li><b>第二章・最終章・エピローグの背景：</b>設計では、最終章は金白へ、エピローグはオレンジへと明るくしていく予定でしたが、実装は暗い色のままでした。明るい背景にすると金色の締めの一文が読みにくくなるため、こちらは実装の暗い背景を採用し、章の上部に紫・金・オレンジの光をほんのり入れる形にしました。カンプも実装に合わせて直しています</li>
         </ul>
         <table class="table">
           <caption class="visually-hidden">全65,536通りの答え方で計算した、各タイプが出る割合</caption>
@@ -196,7 +224,7 @@
       <h2 class="case-sec__title" id="s8">苦労したこと・学んだこと</h2>
       <div class="case-sec__body">
         <p>こだわった読み上げ機能やBGM、挿絵の再表示が、そのまま大変だったところです。ペアでの制作だったので、作りたいものについて考えをすり合わせることの大切さを学びました。</p>
-        <p>掲載前の見直しで、第四章の背景が設計表と違っていたことに気づきました。完成前に、デザインと実装を見比べて確認する大切さも学びました。</p>
+        <p>掲載前の見直しで、いくつかの章の背景が設計と違っていたことに気づきました。設計どおりに直した章もあれば、読みやすさを優先して設計のほうを変えた章もあります。完成前にデザインと実装を見比べ、どちらに合わせるかを判断する大切さも学びました。</p>
       </div>
     </section>
 
