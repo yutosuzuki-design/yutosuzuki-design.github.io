@@ -1,33 +1,14 @@
-/* 購入フォーム：数量・金額表示／お支払い方法の切替／配送希望日の選択肢 */
+/* 購入フォーム：金額表示／お支払い方法の切替／配送希望日の選択肢 */
 (function () {
   var form = document.getElementById('purchase-form');
   if (!form) return;
 
-  var UNIT_PRICE = 2980;
-  var QTY_MIN = 1;
-  var QTY_MAX = 10;
-  var qtyInput = document.getElementById('quantity');
+  var UNIT_PRICE = 2980;  // 初回特別価格（おひとり様1個限りなので、数量は1で固定）
 
   function yen(n) { return n.toLocaleString('ja-JP') + '円'; }
 
-  /* ---- 数量と金額 ---- */
-  function renderQty() {
-    var q = Math.min(QTY_MAX, Math.max(QTY_MIN, parseInt(qtyInput.value, 10) || QTY_MIN));
-    qtyInput.value = q;
-    var total = yen(UNIT_PRICE * q);
-    document.querySelectorAll('[data-subtotal],[data-total]').forEach(function (el) { el.textContent = total; });
-    document.querySelectorAll('[data-qty]').forEach(function (btn) {
-      var step = parseInt(btn.getAttribute('data-qty'), 10);
-      btn.disabled = step < 0 ? q <= QTY_MIN : q >= QTY_MAX;
-    });
-  }
-  document.querySelectorAll('[data-qty]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + parseInt(btn.getAttribute('data-qty'), 10);
-      renderQty();
-    });
-  });
-  renderQty();
+  /* ---- 金額（1個分） ---- */
+  document.querySelectorAll('[data-subtotal],[data-total]').forEach(function (el) { el.textContent = yen(UNIT_PRICE); });
 
   /* ---- お支払い方法の切替（カード入力欄はカード選択時のみ表示） ---- */
   var cardBody = document.getElementById('card-fields');

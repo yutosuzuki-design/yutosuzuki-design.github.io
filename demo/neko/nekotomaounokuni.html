@@ -822,6 +822,9 @@ var INSTRUMENTS = {
 
 var ctx, master, verb, noiseBuffer, isOn = false, currentTrackIdx = -1, liveTrack = null;
 var ducked = false; // 朗読中はBGMを小さくする
+// BGMの音量（0〜1）。物語を邪魔しないよう、かすかに聞こえるくらいにしている
+var BGM_VOLUME = 0.15;          // 通常（変更前は 0.75）
+var BGM_VOLUME_READING = 0.05;  // 読み上げ中（変更前は 0.28）
 
 // AudioContext初期化
 function initAudio() {
@@ -830,7 +833,7 @@ function initAudio() {
   ctx = new AudioCtx();
   
   master = ctx.createGain();
-  master.gain.value = ducked ? 0.28 : 0.75;
+  master.gain.value = ducked ? BGM_VOLUME_READING : BGM_VOLUME;
 
   var compressor = ctx.createDynamicsCompressor();
   compressor.threshold.value = -16;
@@ -1216,7 +1219,7 @@ window.__bgmDuck = function(on) {
   ducked = !!on;
   if (master && ctx) {
     master.gain.cancelScheduledValues(ctx.currentTime);
-    master.gain.setTargetAtTime(ducked ? 0.28 : 0.75, ctx.currentTime, 0.3);
+    master.gain.setTargetAtTime(ducked ? BGM_VOLUME_READING : BGM_VOLUME, ctx.currentTime, 0.3);
   }
 };
 

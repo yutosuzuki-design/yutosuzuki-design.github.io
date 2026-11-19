@@ -41,13 +41,12 @@
         <p class="summary__special">初回特別価格<span class="summary__off">60%OFF</span></p>
       </div>
       <p class="summary__price"><span data-unit-price>2,980円</span><small>（税込）</small></p>
+      <!-- 数量：初回特別価格はおひとり様1個までなので、選べないようにして1個で固定 -->
       <div class="summary__qty">
-        <span class="summary__qty-label" id="qty-label">数量</span>
-        <div class="qty" role="group" aria-labelledby="qty-label">
-          <button type="button" class="qty__btn" data-qty="-1" aria-label="数量を減らす">－</button>
-          <input class="qty__input" type="number" id="quantity" name="quantity" form="purchase-form" value="1" min="1" max="10" inputmode="numeric" aria-label="数量" readonly>
-          <button type="button" class="qty__btn" data-qty="1" aria-label="数量を増やす">＋</button>
-        </div>
+        <span class="summary__qty-label">数量</span>
+        <span class="summary__qty-fixed">1個</span>
+        <input type="hidden" id="quantity" name="quantity" form="purchase-form" value="1">
+        <p class="summary__limit">※初回特別価格は、おひとり様1個限りです</p>
       </div>
       <dl class="summary__totals pc-only">
         <div><dt>小計</dt><dd data-subtotal>2,980円</dd></div>

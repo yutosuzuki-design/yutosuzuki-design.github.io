@@ -25,6 +25,8 @@ body{margin:0;background:radial-gradient(ellipse at 50% -15%,#1a3544,var(--bg) 6
 h1{font-size:clamp(2.5rem,9vw,5rem);line-height:1.05;letter-spacing:.06em;margin:16px 0}
 h1 span{display:block;font-size:.34em;letter-spacing:.28em;color:var(--mint);margin-top:15px}
 h2{font-size:clamp(1.3rem,4vw,2rem);line-height:1.4;margin:10px 0}
+/* 言葉の途中で改行しない（文節で折り返す） */
+h2,#brief,#comment,#feedback,.btn{word-break:auto-phrase}
 p{line-height:1.85;color:#c7d5dc}
 .panel{border:1px solid var(--line);padding:clamp(20px,4vw,34px);background:linear-gradient(145deg,#102431ee,#09141eee);box-shadow:0 20px 60px #0004}
 .radar{height:130px;margin:24px 0;border:1px solid var(--line);position:relative;overflow:hidden;display:grid;place-items:center;background:repeating-linear-gradient(0deg,transparent 0 29px,#17323d 30px),repeating-linear-gradient(90deg,transparent 0 29px,#17323d 30px)}
@@ -108,58 +110,58 @@ footer{text-align:center;color:#627b87;font-size:.67rem;margin-top:28px;letter-s
 (() => {
  const missions = [
   {
-   title:"不審な通信を追跡せよ",
-   brief:"本部の通信ログに不自然なアクセスが見つかった。記録には「02:14に認証失敗が3回」「02:16に未知の端末から接続」「接続後に一部ログが欠落」とある。相手の正体はまだ不明だ。最初に取るべき行動は？",
-   nogi:"今あるのは接続の痕跡だけです。侵入者の正体を決めつけず、証拠を残して時系列を確認してください。",
-   f:"ログの保全と時刻の照合が先です。証拠を残せば、次に何が起きたかを検証できます。",
+   title:"怪しいアクセスを調べろ",
+   brief:"夜中に、本部のシステムへ見知らぬ端末からアクセスがあった。その直後から、記録（ログ）の一部が消えている。相手が誰なのかは、まだ分からない。最初に何をする？",
+   nogi:"相手が誰なのか、まだ決めつけないでください。まずは、残っている記録を守りましょう。",
+   f:"先に記録をコピーして守る。証拠さえ残っていれば、あとで何が起きたかを確かめられる。",
    options:[
-    {text:"ログを複製・保全し、認証失敗と接続時刻を照合する",key:"evidence",feedback:"【正解】元の記録を保全し、時系列を照合することで、後から検証できる証拠が残ります。未知の端末だけで犯人と断定しない点も重要です。"},
-    {text:"未知の端末へ直接連絡し、接続理由を問いただす",key:"rush",feedback:"【不正解】相手が不正アクセス者なら警戒させ、証拠を消される恐れがあります。正体が不明な段階では、先に記録を確保しましょう。"},
-    {text:"欠落したログを隠すため、残っている記録も削除する",key:"delete",feedback:"【不正解】調査に必要な証拠まで失われます。記録の欠落自体が重要な手がかりなので、削除せず保全してください。"}
+    {text:"残っている記録をコピーして守り、アクセスの時刻を確かめる",key:"evidence",ok:true,feedback:"【正解】記録を守っておけば、あとから何が起きたかを確かめられます。見知らぬ端末というだけで、犯人だと決めつけないことも大切です。"},
+    {text:"見知らぬ端末に直接連絡して、アクセスした理由を聞く",key:"rush",feedback:"【不正解】相手が侵入者なら、気づかれたと知って証拠を消すかもしれません。相手が分からないうちは、先に記録を守りましょう。"},
+    {text:"記録が消えたことを隠すため、残りの記録も消す",key:"delete",feedback:"【不正解】調べるための証拠まで失ってしまいます。記録が消えたこと自体が、大事な手がかりです。"}
    ]
   },
   {
-   title:"仲間との連携を確保せよ",
-   brief:"現場班から「予定地点に監視車両がいる」と短い連絡が届いた。通信は不安定で、次の定時連絡まで5分。任務の予定は変更されていないが、現場の安全は確認できていない。どうする？",
-   nogi:"予定は計画にすぎません。新しい情報が届いたなら、現場の安全と本部の認識をそろえてください。",
-   f:"危険の可能性が出たときは、独断で進めず状況を共有する。連携は判断を遅らせるためではなく、誤判断を防ぐためにある。",
+   title:"仲間と連絡を取り合え",
+   brief:"現場の仲間から「予定の場所に、見張りの車がいる」と短い連絡が来た。電波が弱く、いつ切れるか分からない。計画はまだ変わっていない。どうする？",
+   nogi:"計画より、今の現場の情報のほうが大事です。分かったことを、本部に伝えてください。",
+   f:"危ないかもしれないときは、一人で決めずに共有する。連絡を取り合うのは、判断のミスを防ぐためだ。",
    options:[
-    {text:"予定どおり進み、監視車両の様子は後で報告する",key:"solo",feedback:"【不正解】新しい危険情報を無視しており、仲間や任務を危険にさらす可能性があります。予定よりも現場状況の確認が優先です。"},
-    {text:"現在地と監視車両の情報を本部へ共有し、安全な待機・変更指示を確認する",key:"team",feedback:"【正解】現場情報を共有すれば、本部も状況を把握したうえで判断できます。通信が不安定でも、確認できた事実を短く伝え、次の連絡方法を決めるのが適切です。"},
-    {text:"通信が不安定なので、本部との連絡を切り現場だけで判断する",key:"silence",feedback:"【不正解】通信が不安定だからこそ、連絡を断つと支援や情報更新を受けられません。可能な範囲で情報を共有し、連絡手段を確保しましょう。"}
+    {text:"計画どおりに進み、車のことはあとで報告する",key:"solo",feedback:"【不正解】新しく分かった危険を無視しています。仲間を危ない目にあわせるかもしれません。計画より、現場の安全確認が先です。"},
+    {text:"今いる場所と車のことを本部に伝え、どう動くか指示をもらう",key:"team",ok:true,feedback:"【正解】現場の情報を伝えれば、本部も状況を知ったうえで判断できます。電波が弱くても、分かったことを短く伝えるのが大切です。"},
+    {text:"電波が弱いので本部との連絡をやめ、現場だけで決める",key:"silence",feedback:"【不正解】電波が弱いときこそ、連絡を切ると助けや新しい情報を受け取れなくなります。できる範囲で連絡を続けましょう。"}
    ]
   },
   {
-   title:"最終報告の矛盾を見抜け",
-   brief:"報告書Aには「対象車両は21:10に北門を通過」、報告書Bには「同じ車両を21:08に南門で確認」とある。両方の時計が正確かは未確認で、映像記録はまだ届いていない。提出期限が迫る中、どう報告する？",
-   nogi:"矛盾を見つけたこと自体が成果です。確認できた事実と、まだ確かめられない点を分けて報告してください。",
-   f:"不明点を不明のまま示すのは、仕事を放棄することではない。根拠と確度を正確に伝えれば、次の調査につながる。",
+   title:"食い違う報告を見抜け",
+   brief:"同じ車について、報告書Aには「21:10に北門を通った」、報告書Bには「21:08に南門で見た」と書かれている。どちらの時計が正しいかも、防犯カメラの映像も、まだ確認できていない。報告の締め切りが近い。どう報告する？",
+   nogi:"食い違いに気づけたこと自体が成果です。分かっていることと、まだ分からないことを分けて伝えてください。",
+   f:"分からないことを「まだ分からない」と伝えるのも仕事だ。正直に伝えれば、次の調査につながる。",
    options:[
-    {text:"A・Bの記録と時刻を併記し、矛盾点と映像未確認を明記して提出する",key:"honest",feedback:"【正解】現時点の事実と未確認事項を区別できています。どちらかを勝手に正しいとせず、追加確認が必要だと明示する報告が最も信頼できます。"},
-    {text:"時間が近いので、先に記録されたAを正しいものとして提出する",key:"guess",feedback:"【不正解】記録の時刻が早いことは、内容が正しい証拠にはなりません。根拠なく一方を採用すると、誤った判断につながります。"},
-    {text:"矛盾があると評価が下がるので、Bの記録には触れずAだけ提出する",key:"hide",feedback:"【不正解】重要な反対情報を伏せると、報告を受けた側が状況を誤認します。矛盾も含めて透明に伝える必要があります。"}
+    {text:"Aのほうが正しいことにして報告する",key:"guess",feedback:"【不正解】Aが正しいという根拠はありません。根拠のないまま片方を選ぶと、間違った判断につながります。"},
+    {text:"評価が下がりそうなので、Bのことは書かずにAだけ報告する",key:"hide",feedback:"【不正解】都合の悪い情報を隠すと、報告を受けた人が状況を見誤ります。食い違いも、そのまま伝えましょう。"},
+    {text:"AとBの両方を書き、「食い違いがある。映像はまだ確認できていない」と伝える",key:"honest",ok:true,feedback:"【正解】分かっている事実と、まだ確認できていないことを分けて伝えられています。どちらかを勝手に正しいとしない報告が、いちばん信頼されます。"}
    ]
   },
   {
-   title:"断片的な情報を分析せよ",
-   brief:"匿名の情報提供者は「会合は倉庫で行われる」と主張。現場写真には倉庫らしい建物が写るが撮影日時は不明。一方、交通記録には同じ時間帯に別の施設へ向かう車両が記録されている。次の一手は？",
-   nogi:"情報源の信頼性、記録の日時、独立した裏付けを確認しましょう。似ているだけの情報を、確証と取り違えないことです。",
-   f:"一つの筋書きに飛びつかず、情報源と時刻を照合する。確かな点と仮説を分けることで、次に確認すべきことが見えてくる。",
+   title:"バラバラの情報を整理せよ",
+   brief:"名前を明かさない人から「会合は倉庫で行われる」という情報が届いた。倉庫に似た建物の写真もあるが、いつ撮ったものかは分からない。一方、交通の記録では、同じ時間に別の施設へ向かう車が見つかった。次に何をする？",
+   nogi:"「似ている」と「確かめた」は違います。いつの情報なのか、ほかの情報でも同じことが言えるのかを確かめましょう。",
+   f:"一つの話に飛びつかず、日時を照らし合わせる。確かなことと予想を分ければ、次に調べることが見えてくる。",
    options:[
-    {text:"写真の撮影日時と交通記録の時刻を確認し、独立した情報源で裏付ける",key:"analysis",feedback:"【正解】撮影日時と移動記録を照合し、別の情報源で裏付けることで、仮説を検証できます。建物が似ているだけでは会合場所の証拠になりません。"},
-    {text:"匿名情報と写真が一致して見えるので、倉庫が会合場所だと断定する",key:"first",feedback:"【不正解】写真の日時も場所も確定していません。匿名情報と写真が似ているだけでは、独立した裏付けとは言えません。"},
-    {text:"情報が食い違うので、匿名情報・写真・交通記録をすべて破棄する",key:"discard",feedback:"【不正解】食い違いは調査を止める理由ではなく、確認すべき手がかりです。情報を保全したうえで信頼性を評価しましょう。"}
+    {text:"情報と写真が合っているので、会合は倉庫で決まりだと判断する",key:"first",feedback:"【不正解】写真がいつ、どこで撮られたのかも分かっていません。似ているだけでは、裏付けとは言えません。"},
+    {text:"写真の撮影日と車の記録の時刻を確かめ、ほかの情報でも裏付けを取る",key:"analysis",ok:true,feedback:"【正解】日時を照らし合わせ、ほかの情報でも確かめれば、予想が正しいかどうかを確認できます。建物が似ているだけでは、証拠になりません。"},
+    {text:"情報が食い違っているので、すべて捨てる",key:"discard",feedback:"【不正解】食い違いは、調べるべき手がかりです。捨てずに残して、どれが信用できるかを確かめましょう。"}
    ]
   },
   {
-   title:"仲間の安全と任務を両立せよ",
-   brief:"現場班から「負傷者がいる。周囲に不審な動きもある」と連絡が入った。位置情報は大まかで、相手の人数は不明。通信はまだつながる。任務の証拠回収は未完了だ。どう動く？",
-   nogi:"任務の成果より人命と安全を優先してください。分からないことを推測で埋めず、支援につながる情報を集めましょう。",
-   f:"まず位置と状態を確認し、本部に支援を要請する。単独で突入するより、状況を共有して安全な対応を組み立てることが重要だ。",
+   title:"仲間の安全を守れ",
+   brief:"現場の仲間から「けが人がいる。まわりに怪しい動きもある」と連絡が来た。正確な場所も、相手の人数も分からない。通信はまだつながっている。証拠集めは、まだ終わっていない。どう動く？",
+   nogi:"任務より、人の命と安全が先です。分からないことを想像で埋めず、助けを呼ぶための情報を集めてください。",
+   f:"まず場所とけがの様子を確かめ、本部に助けを頼む。一人で飛び込むより、情報を共有して安全に動くことが大切だ。",
    options:[
-    {text:"負傷者の状態と位置を確認できる範囲で聞き、本部へ共有して支援を要請する",key:"rescue",feedback:"【正解】安全を優先し、位置・状態・周囲の危険を共有することで適切な支援につながります。確認できない情報は断定せず、無理な接近を避ける判断も重要です。"},
-    {text:"証拠回収を終えるまで、負傷者への対応は後回しにする",key:"continue",feedback:"【不正解】任務の証拠よりも人命と安全が優先です。状況を確認しないまま継続すると、危険を見落とす可能性があります。"},
-    {text:"支援要請を待たず、自分だけで現場へ急行し、連絡は到着後にする",key:"alone",feedback:"【不正解】位置や危険の程度が不明なまま単独で向かうと、二次被害や支援の遅れにつながります。先に情報共有と支援要請を行いましょう。"}
+    {text:"証拠集めが終わるまで、けが人のことはあとにする",key:"continue",feedback:"【不正解】任務の証拠より、人の命と安全が先です。状況を確かめないまま続けると、危険を見落とすかもしれません。"},
+    {text:"助けを待たずに一人で現場へ向かい、着いてから連絡する",key:"alone",feedback:"【不正解】場所も危険の大きさも分からないまま一人で向かうと、自分もけがをしたり、助けが遅れたりします。先に連絡して、助けを頼みましょう。"},
+    {text:"けが人の様子と場所を聞き、本部に伝えて助けを頼む",key:"rescue",ok:true,feedback:"【正解】安全を第一にして、場所・けがの様子・まわりの危険を伝えることで、必要な助けが届きます。分からないことは決めつけず、無理に近づかない判断も大切です。"}
    ]
   }
  ];
@@ -191,14 +193,14 @@ footer{text-align:center;color:#627b87;font-size:.67rem;margin-top:28px;letter-s
   [...$("choices").children].forEach((b,j)=>{b.disabled=true;if(j===i)b.style.borderColor="#9ce8d2"});
   $("comment").textContent=m.f;$("speaker").textContent="F / SECURE LINE";
   $("portrait").innerHTML='<img alt="Fのイメージ" src="data:image/jpeg;base64,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">';$("portrait").classList.add("f");
-  const fb=$("feedback");fb.textContent=picked.feedback;fb.classList.remove("hidden");fb.classList.toggle("bad",i!==0);
+  const fb=$("feedback");fb.textContent=picked.feedback;fb.classList.remove("hidden");fb.classList.toggle("bad",!picked.ok);
   $("next").textContent=current===missions.length-1?"最終報告を受け取る →":"次のミッションへ →";
   $("next").classList.remove("hidden");
  }
  function finish(timeUp=false){
   clearInterval(timerId);show("ending");
-  const keys=history.map(h=>h.key),score=history.filter(h=>missions[h.mission].options[0].key===h.key).length;
-  // 各ミッションの最適な選択は各 options[0]
+  const keys=history.map(h=>h.key),score=history.filter(h=>missions[h.mission].options.some(o=>o.ok&&o.key===h.key)).length;
+  // 正解の選択肢には ok:true を付けている（正解の位置は問題ごとに変えている）
   const ideal=score;
   let title,comment,label;
   if(ideal===5){

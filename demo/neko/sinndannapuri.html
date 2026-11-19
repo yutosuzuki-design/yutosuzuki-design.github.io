@@ -83,14 +83,18 @@ a.orbit-label:active { transform:translateY(0); }
 .question-top { display:flex; justify-content:space-between; gap:12px; align-items:center; color:#c7bddf; font-size:13px; margin-bottom:15px; }
 .progress-track { height:7px; background:#ffffff17; border-radius:999px; overflow:hidden; margin-bottom:28px; }
 .progress-fill { width:0; height:100%; background:linear-gradient(90deg,#8b77d2,#e2c779); transition:width .3s; border-radius:999px; }
-.question-title { font-size:clamp(23px,3.5vw,32px); margin-bottom:8px; }
-.question-story { color:#c9c0de; margin-bottom:22px; }
+.question-title { font-size:clamp(23px,3.5vw,32px); margin-bottom:22px; }
+.question-story { color:#c9c0de; margin-bottom:8px; }
 .options { display:grid; gap:12px; }
 .option { text-align:left; display:flex; align-items:center; gap:14px; width:100%; padding:16px; border:1px solid #ffffff24; border-radius:15px; background:#ffffff07; color:#f8f3ff; transition:.18s; }
 .option:hover { background:#6f5aa82b; border-color:#a997d6; transform:translateX(3px); }
 .option.selected { background:#6f5aa84a; border-color:#e0ca86; box-shadow:inset 0 0 0 1px #e0ca8666; }
 .option-letter { flex:0 0 36px; height:36px; border-radius:50%; display:grid; place-items:center; border:1px solid #d9bd7577; color:#e6ce8b; font-weight:bold; }
 .question-controls { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:22px; }
+/* 言葉の途中で改行しない（文節で折り返す）／操作ボタンは1行のまま */
+.question-story, .question-title, .option { word-break:auto-phrase; }
+.question-controls .btn { white-space:nowrap; flex-shrink:0; }
+.question-controls .muted { text-align:center; font-size:12px; }
 .result-hero { display:grid; grid-template-columns:.8fr 1.2fr; gap:25px; align-items:center; }
 .result-emblem { aspect-ratio:1/1; width:100%; max-width:420px; margin-inline:auto; overflow:hidden; display:grid; place-items:center; border-radius:18px; border:1px solid #d9bd7555; background:radial-gradient(circle,#7966a955,#17152d); font-size:100px; }
 .type-label { display:inline-block; color:#2c2440; background:#e4cb82; border-radius:999px; padding:5px 12px; font-size:12px; font-weight:bold; margin-bottom:12px; }
@@ -178,8 +182,8 @@ a.orbit-label:active { transform:translateY(0); }
     <div class="question-top"><span id="questionChapter">CHAPTER 01 · はじまりの森</span><span id="questionCount">第1問 / 8問</span></div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     <div class="kicker">星のクリスタルからの問い</div>
-    <h2 class="question-title" id="questionTitle">質問がここに表示されます</h2>
     <p class="question-story" id="questionStory"></p>
+    <h2 class="question-title" id="questionTitle">質問がここに表示されます</h2>
     <div class="options" id="options"></div>
     <div class="question-controls"><button class="btn btn-secondary btn-small" id="backBtn">← 前の質問</button><span class="muted" id="answeredLabel">答えを選んでください</span><button class="btn btn-primary btn-small" id="nextBtn" disabled>次へ →</button></div>
   </div>
@@ -227,14 +231,14 @@ const characters = {
   valgant: {name:'ヴァルガント', title:'再生と希望を秘めた王', type:'再生タイプ', emoji:'🐘', accent:'#687cae', catch:'誰にでも、もう一度光を取り戻すチャンスがある。', description:'過去の失敗や迷いから学び、もう一度立ち上がる力を秘めたあなた。物事の表面だけでなく、その奥にある事情を考えられます。', traits:['回復力','深い洞察','変化する力'], strength:'うまくいかない経験から学び、新しい道を探せること。', growth:'過去の出来事だけで、自分や誰かの未来を決めつけないこと。', friends:'信頼できる相手と気持ちを分かち合うことで、新しい道を見つけられます。', advice:'過去は物語の一部。これからの選択で、新しい章を始められます。', message:'誰にでも、もう一度光を取り戻すチャンスがある。'}
 };
 const questions = [
- {chapter:'CHAPTER 01 · はじまりの森', title:'森の中で、困っている動物を見つけました。あなたならどうする？', story:'レオンたちが森を進むと、小さな動物が道に迷っていました。', options:[['危険があっても、まず助けに行く','leon'],['すぐに行動して、仲間も呼ぶ','gowen'],['落ち着いて、何に困っているのか聞く','seraphim'],['周りを調べて、安全な道を探す','ardion']]},
- {chapter:'CHAPTER 02 · ひみつの魔法', title:'不思議な魔法の本を見つけました。最初にすることは？', story:'本のページから、小さな星の光がこぼれています。', options:[['どんな魔法か、すぐに試してみる','milfy'],['危険がないか、よく調べてから開く','ardion'],['昔この本を使った人に何が起きたのか、過去の記録を調べる','valgant'],['この本が誰のものか、手がかりを探す','geronix']]},
- {chapter:'CHAPTER 03 · 仲間のすれ違い', title:'仲間同士が言い争いを始めました。あなたなら？', story:'大切な作戦を前に、みんなの意見が分かれてしまいました。', options:[['それぞれの気持ちを聞いて、仲直りを手伝う','seraphim'],['自分の考えをはっきり伝えて、決める','geronix'],['すぐにできる解決策を提案する','gowen'],['前にも似たことがなかったか振り返り、同じすれ違いを繰り返さない方法を考える','valgant']]},
- {chapter:'CHAPTER 04 · 霧の谷', title:'先が見えない霧の谷。どうやって進む？', story:'向こう岸には、クリスタルにつながる道があるようです。', options:[['怖くても、まず一歩進んでみる','leon'],['地図や周囲を調べ、道筋を考える','ardion'],['魔法や新しい方法を試してみる','milfy'],['一度決めた隊列を守り、最後まで仲間とはぐれないようにする','geronix']]},
- {chapter:'CHAPTER 05 · 黒く染まるクリスタル', title:'星のクリスタルが黒く染まった原因を探します。何を大切にする？', story:'世界の光が弱まり、みんなが不安になっています。', options:[['なぜこうなったのか、昔の出来事までさかのぼって考える','valgant'],['今できることを探し、仲間と動く','gowen'],['クリスタルに魔法を使って反応を見る','milfy'],['影響を受けた人たちの話を聞く','seraphim']]},
- {chapter:'CHAPTER 06 · 失敗した仲間', title:'仲間が失敗して、自信をなくしています。あなたは？', story:'ミルフィが魔法を失敗し、みんなに申し訳ないと感じています。', options:[['失敗しても大丈夫、一緒にやり直そうと伝える','seraphim'],['次に成功する方法を一緒に試す','milfy'],['怖くても先頭に立ち、もう一度一緒に挑戦しようと声をかける','leon'],['失敗の原因を整理して、次に備える','ardion']]},
- {chapter:'CHAPTER 07 · 魔王の真実', title:'魔王にも、守りたかったものがあったと分かりました。どうする？', story:'敵だと思っていたヴァルガントの過去に、知らなかった真実がありました。', options:[['事情を知るため、話を聞いてみる','seraphim'],['真実を確かめ、別の道がないか考える','ardion'],['救える可能性があるなら、手を差し伸べる','leon'],['仲間を守るため、慎重に見極める','geronix']]},
- {chapter:'CHAPTER 08 · 最後の選択', title:'クリスタルを取り戻す最後のチャンス。あなたが選ぶのは？', story:'世界の未来を左右する瞬間。仲間たちはあなたの決断を待っています。', options:[['誰かを犠牲にせず、救う道を探し続ける','leon'],['みんなの力を合わせて、今すぐ行動する','gowen'],['新しい魔法や方法に賭けてみる','milfy'],['過去と今を見つめ、未来のために判断する','valgant']]}
+ {chapter:'CHAPTER 01 · はじまりの森', story:'森を歩いていると、道に迷った小さな動物が泣いていました。', title:'あなたなら、まずどうする？', options:[['自分から近づいて、すぐに助ける','leon'],['仲間を呼んで、みんなで助ける','gowen'],['そっと声をかけて、話を聞く','seraphim'],['まわりを見て、安全か確かめる','ardion']]},
+ {chapter:'CHAPTER 02 · ひみつの魔法', story:'古い魔法の本を見つけました。ページから、小さな光がこぼれています。', title:'最初に何をする？', options:[['とりあえず、魔法を試してみる','milfy'],['危なくないか、調べてから開く','ardion'],['前にこの本を使った人のことを調べる','valgant'],['持ち主を探して、返しに行く','geronix']]},
+ {chapter:'CHAPTER 03 · 仲間のすれ違い', story:'大事な作戦の前に、仲間どうしでケンカが始まりました。', title:'あなたなら、どうする？', options:[['2人の気持ちを、順番に聞く','seraphim'],['自分の考えを伝えて、話をまとめる','geronix'],['すぐにできる解決策を出す','gowen'],['前にもあったケンカを思い出し、原因を考える','valgant']]},
+ {chapter:'CHAPTER 04 · 霧の谷', story:'霧で前が見えない谷に着きました。向こう側に、クリスタルへ続く道があります。', title:'どうやって進む？', options:[['怖くても、先頭で一歩ふみ出す','leon'],['地図を見て、進む道を考える','ardion'],['魔法で霧を晴らせないか試す','milfy'],['並ぶ順番を決めて、はぐれずに進む','geronix']]},
+ {chapter:'CHAPTER 05 · 黒く染まるクリスタル', story:'星のクリスタルが黒くなり、世界の光が弱まってきました。', title:'原因を探すために、何をする？', options:[['いつから黒くなったのか、昔の出来事を調べる','valgant'],['仲間と一緒に、今できることから始める','gowen'],['クリスタルに魔法をかけて、様子を見る','milfy'],['困っている人たちに、何があったか聞く','seraphim']]},
+ {chapter:'CHAPTER 06 · 失敗した仲間', story:'ミルフィが魔法に失敗して、「みんなに迷惑をかけた」と落ちこんでいます。', title:'あなたは、なんと声をかける？', options:[['「大丈夫。一緒にやり直そう」','seraphim'],['「次は、別の方法で試してみよう」','milfy'],['「先頭はまかせて。もう一回やろう」','leon'],['「どこで失敗したか、一緒に考えよう」','ardion']]},
+ {chapter:'CHAPTER 07 · 魔王の真実', story:'敵だと思っていた魔王ヴァルガントにも、守りたいものがあったと分かりました。', title:'あなたなら、どうする？', options:[['まずは、魔王の話を聞いてみる','seraphim'],['本当かどうか確かめて、ほかの道を考える','ardion'],['助けられるなら、手を差しのべる','leon'],['仲間を守るため、すぐには信じない','geronix']]},
+ {chapter:'CHAPTER 08 · 最後の選択', story:'クリスタルを取り戻せる、最後のチャンスです。仲間たちは、あなたの決断を待っています。', title:'あなたが選ぶのは？', options:[['誰も見捨てない方法を、最後まで探す','leon'],['みんなの力を合わせて、今すぐ動く','gowen'],['まだ誰も試していない魔法にかける','milfy'],['過去の失敗を思い出し、くり返さない道を選ぶ','valgant']]}
 ];
 let current = 0;
 let answers = [];
